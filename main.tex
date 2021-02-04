@@ -1,0 +1,11 @@
+\documentclass[a6paper,11pt,print,grid=front]{kartei/kartei}
+
+\input{style.sty}
+
+\begin{document}
+\newcommand{\chapteramount}{1}
+
+\foreach\c in {1,...,\chapteramount} {
+	\input{chapter\c.tex}
+}
+\end{document}

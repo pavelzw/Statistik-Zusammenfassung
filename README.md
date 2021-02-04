@@ -1,1 +1,1 @@
-statistik-zusammenfassung
+Statistik Zusammenfassung
