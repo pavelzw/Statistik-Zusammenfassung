@@ -1,1 +1,220 @@
 \section{Parameterschätzung}
+\subsection{}
+% 1.2
+\subsection{Verteilungsannahme}
+\begin{karte}{Modell}
+Daten \(x\in \mathfrak{X}\) gegeben, \(\mathfrak{X}\) heißt Stichprobenraum. 
+Oft gilt \(\mathfrak{X} = \R^n, x = (x_1, \ldots, x_n) \in \R^n\).
+
+Modell: 
+\(x = X(\omega)\), wobei \(\abb{X}{\Omega}{\mathfrak{X}}\) ein Zufallsvektor ist. 
+\(x\) heißt Realisierung von \(X\).
+
+Gesucht: 
+Verteilung \(P = P^X\) von \(X\) auf \(\mathfrak{X}\).
+
+Annahme: \(P^X \in \set{P_\vartheta : \vartheta \in \Theta}\), wobei \(\vartheta \mapsto P_\vartheta\) bijektiv.
+
+Falls \(P^X = P_\vartheta\), verwednen wir folgende Schreibweise 
+\[ P_\vartheta(X=x), E_\vartheta X, V_\vartheta(X), \ldots \]
+Das Paar \( (\mathfrak{X}, (P_\vartheta)_{\vartheta \in \Theta}) \) heißt \textit{statistisches Modell}.
+\end{karte}
+
+\begin{karte}{Verteilungsannahme}
+    Die Grundannahme \(X = (X_1, \ldots, X_n)\) mit \(X_1, \ldots, X_n\) u. i. v..
+    \(X_1, \ldots, X_n\) heißt \textit{Stichprobe vom Umfang \(n\)}.
+
+    Sei 
+    \begin{itemize}
+        \item \(\Theta \subset \R^k, \Theta \neq \emptyset, \Theta\) offen, 
+        \item \(f(\cdot, \vartheta)\) (Zähl-)Dichte über \(\R \forall \vartheta \in \Theta\), 
+        wobei \(\vartheta \mapsto f(\cdot, \vartheta)\) bijektiv. 
+    \end{itemize}
+    \(f \in \set{f(\cdot, \vartheta), \vartheta \in \Theta}\) heißt \(k\)-parametrige Verteilungsannahme.
+    Es gilt 
+    \[ h(x_1, \ldots, x_n; \vartheta) = \prod_{i=1}^n f(x_i, \vartheta) \]
+\end{karte}
+
+\begin{karte}{Schätzer}
+    Sei \((\mathfrak{X}, (P_\vartheta)_{\vartheta \in \Theta})\) ein statistisches Modell. 
+    Ein \textit{Schätzer} für \(\vartheta\) ist eine Abbildung 
+    \[ \abb{T}{\mathfrak{X}}{\tilde{\Theta}}, \text{ wobei } \tilde{\Theta} \supset \Theta. \]
+    \(T(x)\) heißt (konkreter) \textit{Schätzwert} für \(\vartheta\) zur Beobachtung \(x\in \mathfrak{X}\). 
+
+    \(P_\vartheta\) steuert das Auftreten von \(x\) und damit von \(T(x)\).
+
+    Im Falle einer diskreten Verteilungsannahme definiert 
+    \[ P_\vartheta^T(t) = P_\vartheta(T=t) = P_\vartheta(\set{x\in \mathfrak{X}: T(x) = t}) \]
+    die Verteilung von \(T\) unter \(P_\vartheta\). Ähnlich wird im Falle einer stetigen Verteilungsannahme 
+    die Verteilung von \(T\) unter \(P_\vartheta\) bestimmt durch 
+    \[ P_\vartheta^T(B) = P_\vartheta(T\in B) = P_\vartheta(\set{x\in \mathfrak{X}: T(x) \in B}). \]
+\end{karte}
+
+\subsection{Maximum-Likelihood-Schätzung}
+
+\begin{karte}{Maximum-Likelihood-Schätzmethode}
+Es sei \((\mathfrak{X}, (P_\vartheta)_{\vartheta\in \Theta})\) ein statistisches Modell mit 
+\(\Theta \subset \R^k\) und sei \(x\in \mathfrak{X}\).
+Besitzt \(X\) eine diskrete Verteilung, so heißt 
+\[ L_x(\vartheta) := P_\vartheta(X=x), \]
+Likelihood-Funktion zu \(x\). 
+Ist \(X\) stetig verteilt mit gemeinsamer Dichte \(H(x_1, \ldots, x_n; \vartheta)\), so heißt 
+\[ H_x(\vartheta) := h(x_1, \ldots, x_n; \vartheta) \]
+Likelihood-Funktion zu \(x\).
+
+Sind \(X_1, \ldots, X_n\) u. i. v. mit Dichte \(f(x_1, \vartheta)\), so gilt 
+\[ L_x(\vartheta) = \prod_{i=1}^n f(x_i, \vartheta). \]
+Existiert ein \(\hat{\vartheta}(x) \in \Theta\) mit 
+\[ L_x(\hat{\vartheta}(x)) = \sup \set{L_x(\vartheta) : \vartheta \in \Theta}, \]
+so heißt \(\hat{\vartheta}(x)\) Maximum-Likelihood-Schätzwert für \(\vartheta\) zu \(x\).
+\end{karte}
+
+\subsection{Momentenmethode}
+
+\begin{karte}{}
+    Seien \(X_1, \ldots, X_n \oversett{u.i.v.}{\sim} X, P^X \in \set{P_\vartheta : \vartheta \in \Theta}, \Theta \subset \R^k, \vartheta = (\vartheta_1, \ldots, \vartheta_k)^T\).
+    Annahme: 
+    \begin{enumerate}
+        \item \(E \abs{X^k} < \infty\).
+        \item Es gibt Funktionen \(\abb{g_1, \ldots, g_k}{\R^k}{\R}\) mit 
+        \begin{align*}
+            \vartheta_1 &= g_1(E X, \ldots, E X^k) \\
+            \vdots \\
+            \vartheta_k &= g_k(E X, \ldots, E X^k)
+        \end{align*}
+    \end{enumerate}
+
+    Sei \(\hat{m}_l := \frac{1}{n} \sum_{j=1}^n X_j^l\) das \(l\)-te \textit{empirische Moment}.
+    Dann ist der Momentenschätzer für \(\vartheta\)
+    \[ \hat{\vartheta} = (\hat{\vartheta}_1, \ldots, \hat{\vartheta}_k)^T := \begin{pmatrix}
+        g_1(\hat{m}_1, \ldots, \hat{m}_k) \\ \vdots \\ g_k(\hat{m}_1, \ldots, \hat{m}_k)
+    \end{pmatrix}. \]
+\end{karte}
+
+\begin{karte}{Starkes Gesetz großer Zahlen}
+    Es sei \(Y_1, \ldots\) eine Folge u. i. v. Zufallsvariablen mit existierendem Erwartungswert. Dann gilt:
+    \[ P\left( \set{ \omega \in \Omega: \limes{n} \frac{1}{n} \sum_{i=1}^n Y_i(\omega) = E Y_1 } \right) = 1. \]
+
+    Schreibweise: 
+    \[ \bar{Y}_n = \frac{1}{n} \sum_{i=1}^n Y_i \overset{P\text{-f.s.}}{\rightarrow} E Y_1. \]
+\end{karte}
+
+\subsection{Eigenschaften von Schätzern}
+
+\begin{karte}{Mittlere quadratische Abweichung, Verzerrung}
+    Sei \(\abb{T}{\mathfrak{X}}{\Gamma}\) mit \(\gamma(\Theta) \subset \Gamma \subset \R\) ein Schätzer für 
+    \(\gamma(\vartheta) \); es gelte \(E_\vartheta (T^2) < \infty \forall \vartheta \in \Theta\).
+    \begin{itemize}
+        \item \(MQA_T(\vartheta) := E_\vartheta(T - \gamma(\vartheta))^2\) heißt \textit{mittlere quadratische Abweichung von \(T\)} (an der Stelle \(\vartheta\)).
+        \item \(b_T(\vartheta) := E_\vartheta T(x) - \gamma(\vartheta)\) heißt \textit{Verzerrung (bias) von \(T\)} (an der Stelle \(\vartheta\)). 
+        \(T\) heißt \textit{erwartungstreu} für \(\gamma(\vartheta)\), falls \(E_\vartheta T(X) = \gamma(\vartheta) \forall \vartheta \in \Theta\).
+    \end{itemize}
+    Es gilt 
+    \[ MQA_T(\vartheta) = V_\vartheta(T) + b_T^2(\vartheta). \]
+\end{karte}
+
+\begin{karte}{Konsistenz, asymptotische Erwartungstreue}
+    Sei \(T_n = T_n(X_1, \ldots, X_n)\) ein Schätzer für \(\gamma(\vartheta)\) für jedes \(n\in \N\). Die Schätzfolge 
+    \((T_n)_{n\in \N}\) heißt 
+    \begin{itemize}
+        \item \textit{konsistent} für \(\gamma(\vartheta)\), falls gilt 
+        \[ \limes{n} P_\vartheta(\abs{T_n - \gamma(\vartheta)} \geq \varepsilon) = 0 \forall \varepsilon > 0 \forall \vartheta \in \Theta. \]
+        (Stochastische Konvergenz)
+        \item \textit{asymptotisch erwartungstreu} für \(\gamma(\vartheta)\), falls gilt: 
+        \[ \limes{n} E_\vartheta(T_n) = \gamma(\vartheta) \forall \vartheta\in \Theta. \]
+    \end{itemize}
+
+    Gilt \((T_n)\) asymptotisch erwartungstreu und \(V_\vartheta(T_n) \rightarrow 0\), dann ist 
+    \((T_n)\) konsistent für \(\gamma(\vartheta)\).
+\end{karte}
+
+\subsection{Cramér-Rao-Ungl., Effizienz}
+
+\begin{karte}{Regularitätsbedingungen}
+    \begin{description}
+        \item[R1] \(\Theta\) ist ein offenes Intervall in \(\R\).
+        \item[R2] Der Träger \(\set{x\in \mathfrak{X}: f(x, \vartheta)>0}\) hängt nicht von \(\vartheta\) ab.
+        \item[R3] Für jedes \(x \in \mathfrak{X}\) ist \(f(x, \vartheta)\) zweimal nach \(\vartheta\) differenzierbar.
+        \item[R4] \(\int f(x, \vartheta) \dx{x}\) darf zweimal unter dem Integralzeichen nach \(\vartheta\) differenziert werden.
+    \end{description}
+\end{karte}
+
+\begin{karte}{Fisher-Information}
+    Scorefunktion: 
+    \[ U_\vartheta(X_1) := \frac{\partial \log f(X_1, \vartheta)}{\partial \vartheta} \]
+    Für den Erwartungswert gilt: \(E_\vartheta[U_\vartheta(X_1)] = 0 \).\\
+    Für die Varianz gilt: 
+    \[ V_\vartheta(\vartheta) = I(\vartheta) = E_\vartheta(U_\vartheta^2) = -E\left[ \frac{\partial U_\vartheta(X_1)}{\partial \vartheta} \right] = -E\left[\frac{\partial^2 \log f(X_1, \vartheta)}{\partial \vartheta^2}\right]. \]
+\end{karte}
+
+\begin{karte}{Voraussetzungen Ungleichung von Cramér-Rao}
+    Folgende Voraussetzungen seien erfüllt: 
+    \begin{itemize}
+        \item \(X_1, \ldots, X_n \oversett{u.i.v.}{\sim} f(x, \vartheta), \vartheta \in \Theta\).
+        \item (R1)-(R4) seien erfüllt.
+        \item \(T(X_1, \ldots, X_n)\) sei ein Schätzer für \(\gamma(\vartheta)\) mit Erwartungswert \(k(\vartheta) := E_\vartheta(T) \) und \(E_\vartheta(T^2) < \infty\).
+        \item \(k(\vartheta)\) darf unter dem Integralzeichen differenziert werden, es gelte also 
+        \begin{align*}
+            k'(\vartheta) &= \frac{\partial}{\partial \vartheta} \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty T(x_1, \ldots, x_n) \prod_{i=1}^n f(x_i, \vartheta) d(x_1, \ldots, x_n) \\
+            &= \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty T(x_1, \ldots, x_n) \left[ \sum_{j=1}^n \frac{\partial f(x_j, \vartheta)}{\partial \vartheta} \frac{1}{f(x_j, \vartheta)} \right] \prod_{i=1}^n f(x_i, \vartheta) dx \\
+            &= \int_{-\infty}^\infty \cdots \int_{-\infty}^\infty T(x_1, \ldots, x_n) \left[ \sum_{j=1}^n \frac{\partial \log f(x_j, \vartheta)}{\partial \vartheta} \right] \prod_{i=1}^n f(x_i, \vartheta) dx.
+        \end{align*}
+    \end{itemize}
+\end{karte}
+
+\begin{karte}{Ungleichung von Cramér-Rao}
+    Unter den oben genannten Voraussetzungen gilt: 
+    \[ V_\vartheta(T) \geq \frac{[k'(\vartheta)]^2}{n I(\vartheta)}, \vartheta \in \Theta. \]
+
+    Ist \(T\) erwartungstreu, also \(k(\vartheta) = \vartheta\), so folgt \[ V_\vartheta(T) \geq \frac{1}{n I(\vartheta)}. \]
+\end{karte}
+
+\begin{karte}{Cramér-Rao effizient}
+    Ein Schätzer \(T\) heißt Cramér-Rao effizient oder auch effizient, wenn seine Varianz die untere Schranke, 
+    die durch die CR-Ungleichung gegeben ist, annimmt.
+\end{karte}
+
+\subsection{Asymptotik ML-Schätzer}
+
+\begin{karte}{Zentraler Grenzwertsatz von Lindeberg-Lévy}
+    Sei \((X_n)_{n\geq 1}\) eine Folge von u. i. v. Zufallsvariablen mit \(0 < \sigma^2 = V(X_1) < \infty\).
+    Mit \(\mu = E X_1\) gilt dann für \(-\infty \leq a < b \leq \infty\)
+    \[ P\left( a \leq \frac{\sqrt{n} (\bar{X}_n - \mu)}{\sigma} \leq b \right) \rightarrow \Phi(b) - \Phi(a). \]
+
+    Also ist für große Stichprobenumfänge \( \frac{\sqrt{n} (\bar{X}_n - \mu)}{\sigma} \) approximativ standardnormalverteilt.
+\end{karte}
+
+\begin{karte}{Verteilungskonvergenz}
+    Sei \((X_n)_n\) eine Folge von Zufallsvariablen mit Verteilungsfunktion \(F_{X_n}\), \(X\) eine Zufallsvariable mit Verteilungsfunktion \(F_X\)
+    und \(C(F_X)\) die Menge der Stetigkeitsstellen von \(F_X\).
+    Gilt 
+    \[ \limes{n} F_{X_n}(x) = F_X(x) \;\forall x \in C(F_X), \]
+    so sagt man, \(X_n\) konvergiert in Verteilung gegen \(X\), man schreibt \(X_n \overset{\mathcal{D}}{\rightarrow} X\).
+\end{karte}
+
+\begin{karte}{Konvergenz}
+Score-Gleichung: 
+\[ \sum_{i=1}^n \frac{\partial \log f(x_i, \vartheta)}{\partial \vartheta} = 0. \]
+
+Es seien \(X_1, \ldots\) eine Folge von u. i. v. ZVen mit Dichte \(f(x, \vartheta_0), \vartheta_0 \in \Theta\), sodass 
+(R1)-(R5) erfüllt sind. Für die Fisher-Information gelte \(0 < I(\vartheta_0) < \infty\).
+
+Für jede konsistente Folge \(\hat{\vartheta}_n = \hat{\vartheta}_n(X_1, \ldots, X_n)\) von Lösungen der Score-Gleichung gilt dann 
+\[ \sqrt{n}(\hat{\vartheta}_n - \vartheta_0) \overset{\mathcal{D}_{\vartheta_0}}{\rightarrow} \mathcal{N}(0, \frac{1}{I(\vartheta_0)}). \]
+\end{karte}
+
+\begin{karte}{Asymptotische Effizienz}
+    Sei \(T_n = T_n(X_1, \ldots, X_n)\) eine Schätzfolge für \( \vartheta_0 \) mit 
+    \[ \sqrt{n}(T_n - \vartheta_0) \overset{\mathcal{D}_{\vartheta_0}}{\rightarrow} \mathcal{N}(0, \sigma^2). \]
+    \begin{enumerate}
+        \item Die \textit{asymptotische Effizienz} von \(T_n\) ist definiert als 
+        \[ e(T_n) = \frac{\frac{1}{I(\vartheta_0)}}{\sigma^2}. \]
+        \item \((T_n)\) heißt \textit{asymptotisch effizient}, falls \(e(T_n) = 1\) gilt.
+        \item Sei \((\tilde{T}_n)\) eine weitere Schätzfolge mit 
+        \[ \sqrt{n} (\tilde{T}_n - \vartheta_0) \overset{\mathcal{D}_{\vartheta_0}}{\rightarrow} \mathcal{N}(0, \tau^2). \]
+        Dann heißt 
+        \[ e(T_n, \tilde{T}_n) = \frac{\tau^2}{\sigma^2} \]
+        \textit{asymptotische relative Effizienz (ARE)} von \(T_n\) zu \(\tilde{T}_n\).
+    \end{enumerate}
+    Somit sind ML-Schätzer asymptotisch effizient.
+\end{karte}
