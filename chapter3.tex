@@ -176,8 +176,8 @@ Die gemeinsame Dichte ist dann
 
 Der Neyman-Pearson-Test mit Testentscheid
 \begin{align*}
-    H_0 \text{ verwerfen, falls} & \(h_1(x) \geq c \cdot h_0(x)\), 
-    H_0 \text{ nicht verwerfen, falls} & \(h_1(x) < c \cdot h_0(x)\).
+    H_0 \text{ verwerfen, falls} & h_1(x) \geq c \cdot h_0(x), 
+    H_0 \text{ nicht verwerfen, falls} & h_1(x) < c \cdot h_0(x).
 \end{align*}
 ist für ein \(c \in (0,\infty)\) der beste Test für \(H_0\) gegen \(H_1\) zum Niveau \\
 \(\alpha = P_0(\text{NP-Test verwirft } H_0)\).
@@ -214,7 +214,7 @@ Dann gilt für die Folge der LQ-Statistiken \( (\Lambda_n(X))_{n\in\N} \)
 \[ 2 \log(\Lambda_n) \overset{\mathcal{D}_{\vartheta_0}}{\longrightarrow} \chi_1^2. \]
 \end{karte}
 
-\begin{karte}Verteilungskonvergenz LQ-Statistik}
+\begin{karte}{Verteilungskonvergenz LQ-Statistik}
 Sind \(X_1, \ldots\) u. i. v. ZVen mit Dichte \(f(x;\vartheta)\), so gilt für die LQ-Statistik 
 \[ \Lambda_n = \prod_{i=1}^n \frac{f(X_i; \hat{\vartheta}_n)}{f(X_i, \hat{\vartheta}_n^0)} \]
 folgendes Resultat:
