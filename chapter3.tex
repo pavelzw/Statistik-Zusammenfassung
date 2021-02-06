@@ -1,0 +1,223 @@
+\section{Testen}
+
+\subsection{\(z\)-Test}
+
+\begin{karte}{Modellierung}
+\(x_1, \ldots, x_n\) Realisierungen von ZVen \(X_1, \ldots, X_n\). 
+\(X_1, \ldots, X_n\) seien unabhängig. 
+Annahme: \(X_i \sim \mathcal{N}(\mu, \sigma^2)\). Zu testen ist, ob diese Annahme begründet ist. 
+
+Fragestellung: 
+Ist \(\mu < \mu_0\) oder nicht?
+Man möchte zeigen, dass \(\mu < \mu_0\) gilt. 
+
+Aufstellen von Hypothesen: 
+\(H_0\): \(\mu = \mu_0\) (oder \(\mu \geq \mu_0\))
+\(H_1\): \(\mu < \mu_0\) (möchte man zeigen!)
+
+Vorgehen: Berechne \(\bar{x}_n\). Entscheide aufgrund dessen ob die Hypothese \(H_0\) verworfen werden kann.
+\end{karte}
+
+\begin{karte}{Fehler 1. und 2. Art}
+\begin{tabular}{p{15mm}||p{40mm}|p{40mm}}
+& Test \(\mu = \mu_0\) \newline (\(H_0\) gilt) & Test \(\mu < \mu_0\) \newline (\(H_1\) gilt) \\
+\hline
+\(\mu = \mu_0\) \newline (\(H_0\) gilt) & richtige Entscheidung \newline \(1-\alpha=0.95\) & Fehler 1. Art \newline \(\alpha=0.05\) \\
+\(\mu < \mu_0\) \newline (\(H_1\) gilt) & Fehler 2. Art \newline \(\beta=?\) & richtige Entscheidung \newline \(1-\beta = ?\)
+\end{tabular}
+\end{karte}
+
+\begin{karte}{Testentscheidung}
+Test entscheidet für \(H_1\): Sehr unwahrscheinlich, wenn in Realität \(H_0\) gilt. Folgerung: 
+\(H_1\) wird in Realität gelten. \gqq{Man lehnt \(H_0\) auf dem Niveau \(\alpha\) ab!}
+
+Test entscheidet für \(H_0\): Da über \(\beta\) nichts bekannt ist, ist keine weitere Aussage möglich. 
+\gqq{Man lehnt \(H_0\) auf dem Niveau \(\alpha\) nicht ab!} oder \gqq{Die Daten stehen nicht im Widerspruch zu \(H_0\).}
+\end{karte}
+
+\begin{karte}{\(z\)-Test}
+Unter \(H_0\) gilt: 
+\[ \bar{X}_n \sim \mathcal{N}\left(\mu_0, \frac{\sigma^2}{n}\right) \Rightarrow T = \frac{\sqrt{n}(\bar{X}_n - \mu_0)}{\sigma} \sim \mathcal{N}(0,1). \]
+Sei \(z_\alpha := \Phi^{-1}(\alpha)\).
+
+\begin{itemize}
+    \item Falls \(T \leq z_{0.05}\): \(H_0\) ablehnen.
+    \item Falls \(T > z_{0.05}\): \(H_0\) nicht ablehnen.
+\end{itemize}
+Wegen \(P_{H_0}(T \leq z_{0.05}) = 0.05\) liegt ein Test zum \(5\%\)-Niveau vor.
+
+Falls \(X_i\) nicht \(\mathcal{N}(\mu, \sigma^2)\)-verteilt ist, gilt nach dem ZGWS zumindest \(T \approx \mathcal{N}(0,1)\).
+Der Test hält in diesem Fall asymptotisch das Niveau \(\alpha\) ein.
+\end{karte}
+
+\begin{karte}{Grundbegriffe}
+Sei das statistische Modell \((\mathfrak{X}, (P_\vartheta)_{\vartheta\in \Theta})\) 
+und die Zerlegung \(\Theta = \Theta_0 \cup \Theta_1\) mit \(\Theta_0 \cap \Theta_1 = \emptyset\).
+
+Ein statistischer Test soll anhand der Daten eine Entscheidung zwischen \(\Theta_0\) und \(\Theta_1\) treffen.
+\begin{itemize}
+    \item Nullhypothese: \(H_0: \vartheta \in \Theta_0\)
+    \item Alternativhypothese: \(H_1: \vartheta \in \Theta_1\)
+    \item Ein Test zur Prüfung von \(H_0\) gegen \(H_1\) ist gegeben durch einen kritischen Bereich \(\mathcal{K} \subset \mathfrak{X}\) mit der Vorschrift: 
+    \begin{align*}
+        x \in \mathcal{K} &\Rightarrow \text{Entscheidung: } H_1 \\
+        x \in \mathfrak{X}\setminus \mathcal{K} &\Rightarrow \text{Entscheidung: } H_0
+    \end{align*}
+\end{itemize}
+\end{karte}
+
+\begin{karte}{Umfang}
+Die Funktion 
+\[ g: \Theta \rightarrow [0,1], \vartheta \mapsto g(\vartheta) = P_\vartheta(X \in \mathcal{K}) = P_\vartheta(\text{Entscheidung für }H_1) \]
+heißt Gütefunktion des Tests mit kritischem Bereich \(\mathcal{K}\).
+Ideal wäre \(g(\vartheta) = \mathds{1}_{\Theta_1}\).
+
+\(\sup_{\vartheta \in \Theta_0} g(\vartheta)\) heißt \textit{Umfang} des Tests.
+Niveau \(\alpha\)-Tests werden so konstruiert, dass der Umfang möglichst nahe bei \(\alpha\) ist. 
+Dadurch wächst die Wahrscheinlichkeit, dass der Test das Vorliegen der Alternative erkennt.
+\end{karte}
+
+\subsection{1-SP-\(t\)-Test}
+
+\begin{karte}{Zweiseitiger Ein-Stichproben-\(t\)-Test}
+Seien \(X_1, \ldots, X_n \oversett{uiv}{\sim} \mathcal{N}(\mu, \sigma^2)\), \(\mu, \sigma^2\) unbekannt.
+
+\(H_0\): \(\mu = \mu_0\) gegen \(H_1\): \(\mu \neq \mu_0\).
+
+Testgröße: 
+\[ T(x_1, \ldots, x_n) = \frac{\sqrt{n} (\bar{x} - \mu_0)}{s} \]
+Unter \(H_0\) gilt: 
+\[ T(X_1, \ldots, X_n) \sim t_{n-1}. \]
+\begin{align*}
+    H_0 \text{ verwerfen,} & \text{falls } \abs{T} \geq t_{n-1;1-\frac{\alpha}{2}},
+    \text{kein Widerspruch zu } H_0 & \text{falls } \abs{T} < t_{n-1;1-\frac{\alpha}{2}}.
+\end{align*}
+Es ist \begin{align*}
+    \Theta &= \set{\vartheta = (\mu, \sigma^2): \mu \in \R, \sigma^2 > 0}, \\
+    \Theta_0 &= \set{\vartheta \in \Theta: \mu = \mu_0}, \\
+    \Theta_1 &= \set{\vartheta \in \Theta: \mu \neq \mu_0}.
+\end{align*}
+\end{karte}
+
+\begin{karte}{Einseitiger Ein-Stichproben-\(t\)-Test}
+    Seien \(X_1, \ldots, X_n \oversett{uiv}{\sim} \mathcal{N}(\mu, \sigma^2)\), \(\mu, \sigma^2\) unbekannt.
+    
+    \(H_0\): \(\mu = \mu_0\) (bzw. \(\mu \leq \mu_0\)) gegen \(H_1\): \(\mu > \mu_0\).
+    
+    Testgröße: 
+    \[ T(x_1, \ldots, x_n) = \frac{\sqrt{n} (\bar{x} - \mu_0)}{s} \]
+    Unter \(H_0\) gilt: 
+    \[ T(X_1, \ldots, X_n) \sim t_{n-1}. \]
+    \begin{align*}
+        H_0 \text{ verwerfen,} & \text{falls } T \geq t_{n-1;1-\alpha},
+        \text{kein Widerspruch zu } H_0 & \text{falls } T < t_{n-1;1-\alpha}.
+    \end{align*}
+    
+    Alternative \( \mu < \mu_0 \):
+    \(H_0\): \(\mu = \mu_0\) (bzw. \(\mu \geq \mu_0\)) gegen \(H_1\): \(\mu < \mu_0\).
+    \begin{align*}
+        H_0 \text{ verwerfen,} & \text{falls } T \leq t_{n-1;\alpha} = -t_{n-1;1-\alpha},
+        \text{kein Widerspruch zu } H_0 & \text{falls } T > t_{n-1;\alpha} = -t_{n-1;1-\alpha}.
+    \end{align*}
+\end{karte}
+
+\begin{karte}{Tests und Konfidenzintervalle}
+Sei \( [\bar{X} - \frac{S}{\sqrt{n}} \cdot t_{n-1;1-\frac{\alpha}{2}}, \bar{X} + \frac{S}{\sqrt{n}} \cdot t_{n-1;1-\frac{\alpha}{2}}] \)
+das \(1-\alpha\)-Konfidenzintervall für \(\mu\) mit Normalverteilungsannahme. 
+Es gilt also \(P_\vartheta(I(X) \ni \mu) = 1-\alpha\). 
+
+Zu testen ist 
+\(H_0: \mu=\mu_0\) gegen \(H_1: \mu \neq \mu_0\).
+Lehne \(H_0\) ab, falls \(i(X) \not\ni \mu_0\).
+
+Aus einem Test lässt sich ebenso ein Konfidenzintervall konstruieren, falls für jedes \(\mu_0 \in \R\) getestet wird.
+\end{karte}
+
+\begin{karte}{Ein-Stichproben-Varianz-Test}
+Sei \(\chi^2 := \frac{(n-1)S^2}{\sigma_0^2}\). 
+In jedem der Fälle gilt \(\chi^2 \sim \chi_{n-1}^2 \) unter \(H_0\).
+\begin{enumerate}
+    \item \(H_0: \sigma^2 = \sigma_0^2\) gegen \(H_1: \sigma^2 > \sigma_0^2\). Lehne \(H_0\) ab, falls \(\chi^2 \geq \chi_{n-1;1-\alpha}^2\).
+    \item \(H_0: \sigma^2 = \sigma_0^2\) gegen \(H_1: \sigma^2 < \sigma_0^2\). Lehne \(H_0\) ab, falls \(\chi^2 \leq \chi_{n-1;1-\alpha}^2\).
+    \item \(H_0: \sigma^2 = \sigma_0^2\) gegen \(H_1: \sigma^2 \neq \sigma_0^2\). Lehne \(H_0\) ab, falls \(\chi^2 \leq \chi_{n-1;1-\frac{\alpha}{2}}^2\).
+\end{enumerate}
+\end{karte}
+
+\subsection{Der \(p\)-Wert}
+
+\begin{karte}{\(p\)-Wert}
+Der \(p\)-Wert ist die Wahrscheinlichkeit, bei Gültigkeit der Hypothese etwas mindestens so Extremes zu beobachten wie das tatsächlich Beobachtete.
+
+Für kritischen Bereich der Form \(T \geq c\) gilt 
+\[ p^* = P_{H_0}(T \geq T(x)). \]
+
+\(c\) wird so gewählt, dass \(P_{H_0}(T\geq c) = \alpha\).
+Gilt nun \(p^* \leq \alpha\) folgt, dass \(T(x) \geq c \) gelten muss, also wird \(H_0\) auf dem Niveau \(\alpha\) verworfen. 
+Gilt dagegen \(P^* > \alpha\), so muss \(T(x) < x\) gelten und \(H_0\) wird nicht verworfen.
+
+\(p^*\) ist die kleinste Zahl, die man als Signifikanzniveau wählen kann, sodass der Test gerade noch zur Ablehnung von \(H_0\) führt.
+\end{karte}
+
+\subsection{Optimalität}
+
+\begin{karte}{Bester Test}
+Unter einem \textit{besten Test} für \(H_0: \vartheta \in \Theta_0\) gegen \(H_1: \vartheta \in \Theta_1\) 
+versteht man einen Niveau-\(\alpha\)-Test, dessen Güte \(P_\vartheta(H_0 \text{ wird verworfen})\) für jedes \(\vartheta \in \Theta_1\) 
+maximal ist.
+
+Wir betrachten nur die Situation einer einfachen Hypothese \(H_0: \vartheta = \vartheta_0\) gegen 
+eine einfache Alternative \(H_1: \vartheta = \vartheta_1\).
+\end{karte}
+
+\begin{karte}{Neyman-Pearson-Lemma}
+Seien \(X_1, \ldots, X_n\) u. i. v. mit Dichte \(f_0\) unter \(H_0\) bzw. \(f_1\) unter \(H_1\). 
+Die gemeinsame Dichte ist dann 
+\[ h_k(x) = \prod_{i=1}^n f_k(x_i), \quad k \in \set{0,1}. \]
+
+Der Neyman-Pearson-Test mit Testentscheid
+\begin{align*}
+    H_0 \text{ verwerfen, falls} & \(h_1(x) \geq c \cdot h_0(x)\), 
+    H_0 \text{ nicht verwerfen, falls} & \(h_1(x) < c \cdot h_0(x)\).
+\end{align*}
+ist für ein \(c \in (0,\infty)\) der beste Test für \(H_0\) gegen \(H_1\) zum Niveau \\
+\(\alpha = P_0(\text{NP-Test verwirft } H_0)\).
+\end{karte}
+
+\begin{karte}{Neyman-Pearson-Lemma 2}
+Das NP-Lemma besagt im Wesentlichen, dass ein optimaler Test die Test-Statistik 
+\[ T(x) = \frac{h_1(x)}{h_0(x)} \]
+verwendet und \(H_0\) für \(T(x) \geq c\) verwirft, wobei \(x\) so zu wählen ist, dass 
+die Wahrscheinlichkeit des Fehlers 1. Art gleich \(\alpha\) ist. 
+
+Allerdings besagt der Satz nicht, dass für jedes \(\alpha \in (0,1)\) so ein \(c\) 
+auch tatsächlich existiert.
+
+Dies ist zumindest dann der Fall, wenn \(T(X)\) eine stetige Verteilung besitzt.
+\end{karte}
+
+\subsection{Likelihood-Quotienten-Tests}
+
+\begin{karte}{Verallgemeinerte Likelihood-Quotienten-Testgröße}
+Die \textit{(verallgemeinerte) Likelihood-Quotienten-Testgröße} wird definiert als 
+\[ \Lambda(x) := \frac{ \sup_{\vartheta \in \Theta} h(x;\vartheta) }{ \sup_{\vartheta \in \Theta_0} h(x;\vartheta) } \]
+Der \textit{(verallgemeinerte) Likelihood-Quotienten-Test} für 
+\[ H_0: \vartheta \in \Theta_0 \text{ gegen } H_1: \vartheta \in \Theta \setminus \Theta_0 \]
+verwirft \(H_0\) für große Werte von \(\Lambda\).
+\end{karte}
+
+\begin{karte}{Verteilungskonvergenz Schätzfolge}
+Seien \(X_1, \ldots\) eine Folge von u. i. v. ZVen mit Dichte \(f(x, \vartheta_0), \vartheta_0 \in \Theta\) so, 
+dass (R1)-(R5) erfüllt sind. Für die Fisher-Information gelte \(0 < I(\vartheta_0) < \infty\).
+Für eine konsistente Schätzfolge \((\hat{\vartheta}_n)\) gelte 
+\[ \sqrt{n}(\hat{\vartheta}_n - \vartheta_0) \overset{\mathcal{D}_{\vartheta_0}}{\longrightarrow} \mathcal{N}\left( 0, \frac{1}{I(\vartheta_0)} \right). \]
+Dann gilt für die Folge der LQ-Statistiken \( (\Lambda_n(X))_{n\in\N} \)
+\[ 2 \log(\Lambda_n) \overset{\mathcal{D}_{\vartheta_0}}{\longrightarrow} \chi_1^2. \]
+\end{karte}
+
+\begin{karte}Verteilungskonvergenz LQ-Statistik}
+Sind \(X_1, \ldots\) u. i. v. ZVen mit Dichte \(f(x;\vartheta)\), so gilt für die LQ-Statistik 
+\[ \Lambda_n = \prod_{i=1}^n \frac{f(X_i; \hat{\vartheta}_n)}{f(X_i, \hat{\vartheta}_n^0)} \]
+folgendes Resultat:
+\[ 2 \log \Lambda_n \overset{\mathcal{D}}{\longrightarrow} \chi_r^2 \text{ unter } H_0, \]
+wobei \(\hat{\vartheta}_n\) der ML-Schätzer ohne Restriktionen ist.
+\end{karte}
