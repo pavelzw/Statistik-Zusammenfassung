@@ -1,0 +1,122 @@
+\section{Vergleich von 2 Stichproben}
+
+\subsection{Lagevergleich unabh.}
+
+\begin{karte}{Lagevergleich von zwei unabhängigen Stichproben Voraussetzungen}
+Es seien \( X_1, \ldots, X_m, Y_1, \ldots, Y_n \) unabhängig
+\[ X_i \sim \mathcal{N}(\mu, \sigma^2), Y_j \sim \mathcal{N}(\nu, \tau^2). \]
+
+Weiter sei 
+\begin{align*}
+\bar{X}_m &:= \frac{1}{m} \sum_{i=1}^m X^i, &\bar{Y}_n &:= \frac{1}{n} \sum_{i=1}^n Y_j, \\
+S_X^2 &:= \frac{1}{m-1} \sum_{i=1}^m (X_i - \bar{X}_m)^2, &S_Y^2 &:= \frac{1}{n-1} \sum_{j=1}^n (Y_j - \bar{Y}_n)^2
+\end{align*}
+Dann gilt 
+\begin{align*}
+    \bar{X}_m \sim \mathcal{N}(\mu, \frac{\sigma^2}{m}), &\bar{Y}_n \sim \mathcal{N}(\nu, \frac{\tau^2}{n}), \\
+    \frac{(m-1)S_X^2}{\sigma^2} \sim \chi_{m-1}^2, & \frac{(n-1)S_Y^2}{\tau^2} \sim \chi_{n-1}^2,
+\end{align*}
+diese vier ZVen sind stochastisch unabhängig.
+\end{karte}
+
+\begin{karte}{Lagevergleich von \(\mu\) und \(\nu\) gegeben \(\sigma^2 = \tau^2\)}
+Für den Lagevergleich von \( \mu \) und \(\nu\) machen wir die zusätzliche Annahme 
+\[ \sigma^2 = \tau^2. \]
+Dann folgt 
+\[ \bar{X}_m - \bar{Y}_n - (\mu - \nu) \sim \mathcal{N}(0, \frac{m+n}{mn} \sigma^2). \]
+Für 
+\[ S_{m,n}^2 := \frac{1}{m+n-2} ((m-1)\cdot S_X^2 + (n-1) \cdot S_Y^2) \]
+gilt 
+\[ \frac{(m+n-2) \cdot S_{m,n}^2}{\sigma^2} = \frac{1}{\sigma^2} \left( \sum_{i=1}^m (X_i - \bar{X}_m)^2 + \sum_{j=1}^n (Y_j - \bar{Y}_n)^2 \right) \sim \chi_{m+n-2}^2. \]
+
+Somit gilt: 
+\[ \frac{ \sqrt{ \frac{mn}{m+n} } (\bar{X} - \bar{Y} - (\mu - \nu)) }{S_{m,n}} \sim t_{m+n-2}. \]
+\end{karte}
+
+\begin{karte}{Konfidenzintervall für \( \mu - \nu \)}
+Mit 
+\[ R_{m,n} := \sqrt{\frac{m+n}{mn}} \cdot S_{m,n} \cdot t_{m+n-2; 1-\frac{\alpha}{2}} \]
+ist 
+\[ \bar{X}_m - \bar{Y}_n - R_{m,n}, \bar{X}_m - \bar{Y}_n + R_{m,n} \]
+ein Konfidenzintervall für \(\mu - \nu\) zur Konfidenzwahrscheinlichkeit \(1-\alpha\).
+\end{karte}
+
+\begin{karte}{Der zweiseitige 2-Stichproben-\(t\)-Test}
+Der zweiseitige 2-SP-\(t\)-Test testet unter der Annahme \(\sigma^2 = \tau^2\)
+die Hypothese \(H_0: \mu = \nu\) gegen die Alternative \(H_1: \mu \neq \nu\).
+
+Mit \begin{align*}
+    \Theta := \set{\vartheta = (\mu, \nu, \sigma^2): \mu, \nu \in \R, \sigma^2 > 0},\\
+    \Theta_0 := \set{\vartheta \in \Theta: \mu = \nu},\\
+    \Theta_1 := \set{\vartheta \in \Theta: \mu \neq \nu}.
+\end{align*}
+gilt also: \( H_0: \vartheta \in \Theta_0, H_1: \vartheta \in \Theta_1 \). Die Testgröße 
+\[ T_{m,n} := \frac{\sqrt{\frac{mn}{m+n}} (\bar{X}_m - \bar{Y}_n)}{S_{m,n}} \]
+ist unter \(H_0\) \(t_{m+n-2}\)-verteilt. 
+
+Der Testentscheid lautet: 
+\begin{align*}
+    H_0 \text{ verwerfen, falls } & \abs{T_{m,n}} \geq t_{m+n-2; 1-\frac{\alpha}{2}}, \\
+    H_0 \text{ nicht verwerfen, falls } & \abs{T_{m,n}} < t_{m+n-2; 1-\frac{\alpha}{2}}.
+\end{align*}
+\end{karte}
+
+\begin{karte}{Der einseitige 2-Stichproben-\(t\)-Test}
+\(H_0: \mu \leq \nu\) (bzw. \(\mu \geq \nu\)) gegen die Alternative 
+\(H_1: \mu > \nu\) (bzw. \(\mu < \nu\)). 
+Die Testgröße 
+\[ T_{m,n} := \frac{\sqrt{\frac{mn}{m+n}} (\bar{X}_m - \bar{Y}_n)}{S_{m,n}} \]
+ist für \(\mu = \nu\) \(t_{m+n-2}\)-verteilt.
+
+Der Testentscheid lautet: 
+\begin{align*}
+    H_0 \text{ verwerfen, falls } & T_{m,n} \geq t_{m+n-2; 1-\alpha} &\text{ (bzw. \(\leq\))}, \\
+    H_0 \text{ nicht verwerfen, falls } & \abs{T_{m,n}} < t_{m+n-2; 1-\alpha} &\text{ (bzw. \(>\))}.
+\end{align*}
+\end{karte}
+
+\begin{karte}{\(F\)-Test für den Varianzquotienten}
+Zu testen ist 
+\[ H_0: \sigma^2 = \tau^2 \text{ gegen } H_1: \sigma^2 \neq \tau^2. \]
+Prüfgröße des \(F\)-Tests für den Varianzquotienten ist 
+\[ Q_{m,n} := \frac{\frac{1}{m-1} \sum_{i=1}^m (X_i - \bar{X}_m)^2}{\frac{1}{n-1} \sum_{i=1}^n (Y_i - \bar{Y}_n)^2}. \]
+Unter \(H_0\) gilt 
+\[ Q_{m,n} \sim F_{m-1,n-1}. \]
+
+Testentscheid: 
+\begin{align*}
+    H_0 \text{ verwerfen, falls } & Q_{m,n} \leq F_{m-1,n-1;\frac{\alpha}{2}} \vee Q_{m,n} \geq F_{m-1,n-1;1-\frac{\alpha}{2}}, \\
+    H_0 \text{ nicht verwerfen, falls } & F_{m-1,n-1;\frac{\alpha}{2}} < Q_{m,n} < F_{m-1,n-1;1-\frac{\alpha}{2}}.
+\end{align*}
+\end{karte}
+
+\begin{karte}{2-Stichproben-\(t\)-Test mit Welch-Modifikation}
+Zu testen ist \(H_0: \mu = \nu\) gegen \(H_1: \mu \neq \nu\), aber \(\sigma^2 \neq \tau^2\) möglich.
+
+Es gilt 
+\[ \bar{X}_m - \bar{Y}_n \sim \mathcal{N}(\mu - \nu, \frac{\sigma^2}{m} + \frac{\tau^2}{n}). \]
+Die Testgröße lautet 
+\[ T_{m,n}^W = \frac{\bar{x}_m - \bar{y}_n}{ \sqrt{ \frac{1}{m} s_x^2 + \frac{1}{n} s_y^2 } }. \]
+Unter \(H_0\) folgt \( T_{m,n}^W \overset{D_{H_0}}{\longrightarrow} \mathcal{N}(0,1) \).
+
+Unter \(H_0\) gilt \(T_{m,n}^W \approx t_k\), wobei 
+\[ k = \left( \frac{c^2}{m-1} + \frac{(1-c)^2}{n-1} \right)^{-1} \text{ mit } c = \frac{\frac{s_x^2}{m}}{\frac{s_x^2}{m} + \frac{s_y^2}{n}}. \]
+
+Für \(m=n\) stimmen \(T_{m,n}\) und \(T_{m,n}^W\) überein. 
+
+Der \(t\)-Test testet \(P^X = P^Y\). Der 2-SP-\(t\)-Test mit Welch-Modifikation testet \(EX = EY\).
+\end{karte}
+
+\subsection{Verbundene Stichproben}
+
+\begin{karte}{2-Stichproben-\(t\)-Test für verbundene Stichproben}
+Definiert man \(z_i := x_i - y_i\) und fordert, dass \(z_1, \ldots, z_n\) 
+Realisierungen von ZVen \(Z_1, \ldots, Z_n \oversett{uiv}{\sim} \mathcal{N}(\mu, \sigma^2)\) mit unbekanntem \(\mu\) 
+und \(\sigma^2\) sind, so ist \(\mu := \nu_x - \nu_y\), wobei \(\nu_x := EX_1, \nu_y := EY_1\) ist.
+
+Das Testproblem lautet \(H_0: \mu = 0\) gegen \(H_1: \mu \neq 0\).
+
+Eine sinnvolle Testgröße ist 
+\[ T := \frac{\sqrt{n} \bar{z}}{\sqrt{ \frac{1}{n-1} \sum_{i=1}^n (z_i - \bar{z})^2 }} = \frac{\sqrt{n} \bar{z}}{s_z}, \]
+also gerade die Testgröße des 1-SP-\(t\)-Tests.
+\end{karte}
