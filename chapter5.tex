@@ -1,0 +1,285 @@
+\section{Lineare Regression}
+
+\subsection{Regressionsanalyse}
+
+\begin{karte}{Lineares Regressionsmodell}
+Regressionsanalyse modelliert den Zusammenhang zwischen 
+\(y\), der Zielgröße, und \(x_1, \ldots, x_k\), den Regressoren. 
+\(k=1\) ist einfache Regression, \(k>1\) ist multiple Regression.
+
+Das \textit{lineare Regressionsmodell (LRM)} ist gegeben durch 
+\[ y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon. \]
+Dabei sind \(\beta_0, \ldots, \beta_k\) unbekannte Parameter (\(\beta_0\) ist Intercept)
+und \(\varepsilon\) ist ein additiver Fehler.
+
+Dieses Modell soll an die Daten \(y_i, x_{i1}, \ldots, x_{ik}\) angepasst werden. 
+
+\(x_{ij}\) seien feste Werte, nicht zufällig und \(\varepsilon_i\) ein Zufallsfehler mit 
+\(E \varepsilon_i = 0, V(\varepsilon_i) = \sigma^2\) und \(C(\varepsilon_i, \varepsilon_j) = 0, i\neq j\).
+
+Somit gilt 
+\(EY_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_k x_{ik}, V(Y_i) = \sigma^2, C(Y_i,Y_j) = 0\).
+\end{karte}
+
+\begin{karte}{Lineares Regressionsmodell Matrixschreibweise}
+\[ Y = \begin{pmatrix} 
+    Y_1 \\ \vdots \\ Y_n 
+\end{pmatrix}, X = \begin{pmatrix}
+    1 & x_{11} & \cdots & x_{1k} \\
+    \vdots & \vdots & & \vdots \\
+    1 & x_{n1} & \cdots & x_{nk} 
+\end{pmatrix} \in \R^{n \times (k+1)}, 
+    \varepsilon = \begin{pmatrix}
+        \varepsilon_1 \\ \vdots \\ \varepsilon_n
+\end{pmatrix}, \beta = \begin{pmatrix}
+        \beta_0 \\ \vdots \\ \beta_k
+\end{pmatrix}. \]
+\[ Y = X \beta + \varepsilon. \]
+mit \(E \varepsilon = 0\) und \(C(\varepsilon) = \sigma^2 I_n\).
+\end{karte}
+
+\subsection{Kleinste-Quadrate}
+
+\begin{karte}{Orthogonalprojektion}
+Sei \(\mathcal{L}(X)\) der von den Spalten von \(X\) aufgespannte Unterraum des \(\R^n\).
+\(\hat{y}\) minimiert den Abstand von \(y\) zu \(\mathcal{L}(X)\), d. h. es gilt 
+\[ || y - \hat{y} ||^2 = \min_{z \in \mathcal{L}(X)} || y - z||^2 = \min_{\beta \in \R^{k+1}} ||y-X\beta||^2. \]
+
+Sei \(y\in \R^n\), \(V \) ein linearer Unterraum von \(\R^n\). \(\hat{y}\) heißt \textit{Orthogonalprojektion} von 
+\(y\) auf \(V\), falls 
+\[ \hat{y} \in V \text{ und } y - \hat{y} \in V^\bot. \]
+\begin{enumerate}
+    \item Es gilt \(||y - \hat{y}||^2 = \min_{z\in V} ||y-z||^2\).
+    \item Die Orthogonalprojektion \(\hat{y}\) ist eindeutig bestimmt.
+    \item Bilden die \(p\) Spalten der Matrix \(X\) eine Basis von \(V\) und existiert 
+    somit \((X^T X)^{-1}\), so ist 
+    \[ \hat{y} = Hy \text{ mit } H := X (X^T X)^{-1} X^T \in \R^{n\times n} \]
+    die Orthogonalprojektion von \(y\) auf \(V\).
+\end{enumerate}
+\end{karte}
+
+\begin{karte}{Kleinste-Quadrate-Schätzer}
+Ist in einem LRM die Matrix \(X^T X\) invertierbar, so ist wegen \(\hat{y} = Hy = X (X^T X)^{-1} X^T y = X\hat{\beta}\) 
+der Kleinste-Quadrate-Schätzer \(\hat{\beta}\) von \(\beta\) gegeben durch 
+\[ \hat{\beta} = (X^T X)^{-1} X^T y. \]
+\end{karte}
+
+\begin{karte}{Prädiktionswerte, Residuen, RSS}
+Die Komponenten \(y_i\) von \(\hat{y}\) heißen auch \textit{Prädiktionswerte}. 
+
+\(\hat{\varepsilon} = y - \hat{y}\) heißt \textit{Residuenvektor}. 
+\(||\hat{\varepsilon}||^2\) heißt \textit{Residuen-Quadratsumme}. Es gilt 
+\[ ||\hat{\varepsilon}||^2 = y^T (I_n - H)y \]
+wobei \(H\) die \gqq{Hut-Matrix} ist: \(H = X (X^T X)^{-1} X^T\). Es gilt \(HX = X\).
+\end{karte}
+
+\begin{karte}{Normalengleichung}
+Aus einer analytischen Herleitung von \(\hat{\beta}\) (\(||y - X\beta||^2\) minimieren)
+folgt die Normalengleichung 
+\[ X^T X \beta = X^T y. \]
+Für die praktische Berechnung lösen wir die Normalengleichung iterativ.
+\end{karte}
+
+\begin{karte}{Eigenschaften von \(\hat{\beta}\) und \(\hat{Y}\)}
+\[E\hat{\beta} = \beta, C(\hat{\beta}) = \sigma^2 (X^T X)^{-1}, \]
+\[ E \hat{Y} = X \beta, C(\hat{Y}) = \sigma^2. \]
+\end{karte}
+
+\begin{karte}{\(\hat{\sigma}^2\)}
+\(\hat{\sigma}^2 = \frac{1}{n-p} ||\hat{\varepsilon}||^2 = \frac{1}{n-p} ||Y-\hat{Y}||^2\).
+\(\hat{\sigma}^2\) ist erwartungstreu, d. h. \(E(\hat{\sigma}^2) = \sigma^2\).
+\end{karte}
+
+\begin{karte}{Standardabweichung von \(\hat{\beta}_j\)}
+\[ \mathrm{se}(\hat{\beta}_j) := \hat{\sigma} \sqrt{ (X^T X)^{-1}_{j+1,j+1} }. \]
+\end{karte}
+
+\begin{karte}{Das Bestimmtheitsmaß \(R^2\)}
+In einem LRM definiert man das \textit{Bestimmtheitsmaß} durch 
+\[ R^2 := 1 - \frac{ \sum_{i=1}^n (y_i - \hat{y}_i)^2 }{ \sum_{i=1}^n (y_i - \bar{y}_n)^2 } = 1 - \frac{\mathrm{RSS}}{\mathrm{TSS}}. \]
+Es gilt 
+\[ R^2 = \frac{ \sum_{i=1}^n (\hat{y}_i - \bar{y}_i)^2 }{ \sum_{i=1}^n (y_i - \bar{y}_n)^2 } \text{ und somit } 0 \leq R^2 \leq 1. \]
+
+\(\bar{y}\) ist die beste Vorhersage ohne Kenntnis von \(x\), \(\mathrm{TSS}\) der Vorhersagefehler ohne Kenntnis von \(x\). 
+\(\hat{y}\) ist die beste Vorhersage mit Kenntnis von \(x\), \(\mathrm{RSS}\) der Vorhersagefehler mit Kenntnis von \(x\). 
+\end{karte}
+
+\begin{karte}{Empirischer Korrelationskoeffizient}
+Der empirische Korrelationskoeffizient ist definiert durch 
+\[ r_{xy} = \frac{\frac{1}{n-1} \sum (x_i - \bar{x})(y_i - \bar{y})}{s_x s_y}, \]
+wobei \(s_x\) und \(s_y\) die Stichproben-Standardabweichung der \(x\)- bzw. \(y\)-Werte bezeichnet. 
+Im einfachen LRM gilt \(R^2 = r_{xy}^2\).
+\end{karte}
+
+\begin{karte}{\(R^2\) im LRM ohne Inercept}
+Die Definition von \(R^2\) ist nur sinnvoll, wenn es einen Intercept im Modell gibt. 
+
+Wenn ein LRM ohne Intercept vorliegt, muss \(\bar{y}\) im Nenner weggelassen werden.
+
+Das \textit{adjungierte Bestimmtheitsmaß} ist durch 
+\[ R_a^2 := 1 - \frac{n-1}{n-p} (1-R^2) = 1 - \frac{\mathrm{RSS}/(n-p)}{\mathrm{TSS}/(n-1)} = 1 - \frac{\hat{\sigma}^2}{s_y^2}. \]
+gegeben.
+\end{karte}
+
+\begin{karte}{Gauß-Markov-Theorem}
+Sei \(a\in \R^p\). Dann ist \(T := a^T \hat{\beta}\) \textit{bester linearer erwartungstreuer Schätzer} 
+(best linear unbiased estimtor, BLUE) für \(a^T \beta\).
+\end{karte}
+
+\subsection{Das klassische LM}
+
+\begin{karte}{Annahmen}
+Beim klassischen linearen Modell wird zusätzlich angenommen, dass die Fehler normalverteilt sind. 
+Dann ist 
+\[ \varepsilon_1, \ldots, \varepsilon_n \oversett{uiv}{\sim} \mathcal{N}(0, \sigma^2) \text{ bzw. } \varepsilon \sim \mathcal{N}_n(0, \sigma^2 I_n). \]
+
+Im klassischen linearen Modell gilt 
+\[ Y = X \beta + \varepsilon \sim \mathcal{N}_n(X \beta, \sigma^2 I_n). \]
+\[ \hat{\beta} = (X^T X)^{-1} X^T Y \sim \mathcal{N}_p(\beta, \sigma^2 (X^T X)^{-1}). \]
+\[ \hat{Y} \sim \mathcal{N}_n(X\beta, \sigma^2 H). \]
+Für \(\hat{\varepsilon}\) gilt \(\hat{\varepsilon} \sim \mathcal{N}_n(0, \sigma^2(I_n - H))\).
+\end{karte}
+
+\begin{karte}{Eigenschaften im klassischen LRM}
+Sei \(\hat{\sigma}_{ML}^2 := \frac{\hat{\varepsilon}^T \hat{\varepsilon}}{n}\). Im klassischen LRM gilt: 
+\begin{enumerate}
+    \item \((\hat{\beta}, \hat{\sigma}_{ML}^2)\) ist Maximum-Likelihood-Schätzer für \((\beta, \sigma^2)\).
+    \item Für die Likelihood-Funktion an der Stelle \((\hat{\beta}, \hat{\sigma}_{ML}^2)\) gilt: 
+    \[ L_y(\hat{\beta}, \hat{\sigma}_{ML}^2) = (2\pi e \hat{\sigma}_{ML}^2)^{-n/2}. \]
+    \item \(\hat{\beta}\) und \(\hat{\sigma}_{ML}^2\) sind stochastisch unabhängig.
+    \item Es gilt 
+    \[ \frac{n \hat{\sigma}_{ML}^2}{\sigma^2} = \frac{(n-p)\hat{\sigma}^2}{\sigma^2} = \frac{\hat{\varepsilon}^T \hat{\varepsilon}}{\sigma^2} \sim \chi_{n-p}^2. \]
+\end{enumerate}
+\end{karte}
+
+\subsection{Tests im klassischen LM}
+
+\begin{karte}{Test im klassischen linearen Modell}
+Oft sind viele Regressoren vorhanden, sind alle nötig?
+
+Obermodell: \(Y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i p-1} + \varepsilon_i\)
+Teilmodell: \(Y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{r-1} x_{i r-1} + \varepsilon_i\), \(1 \leq r < p\).
+
+Zu testen ist die Hypothese 
+\[ H_0: \beta_r = \beta_{r+1} = \cdots = \beta_{p-1} = 0 \] 
+gegen die Alternative \(H_1: \) nicht alle \(\beta_j\) sind gleich \(0\).
+
+Falls \(H_0\) nicht verworden wird, können die entsprechenden Regressoren \(x_r, \ldots, x_{p-1}\) weggelassen werden.
+
+Definiere \(X_r, \hat{\beta}_r, \hat{Y}_r, \hat{\varepsilon}_r, \hat{\sigma}_r^2, \mathrm{RSS}_r\) wie gewohnt. 
+
+Da \(d := \hat{Y} - \hat{Y}_r\) und \(\hat{\varepsilon}\) senkrecht zueinander stehen, gilt 
+\[ d^T d + \hat{\varepsilon}^T \hat{\varepsilon} = \hat{\varepsilon}_r^T \hat{\varepsilon}_r \text{ bzw. } d^T d = \mathrm{RSS}_r - \mathrm{RSS}. \]
+\end{karte}
+
+\begin{karte}{Likelihood-Quotienten-Statistik zum Vergleich von Teil- und Obermodell}
+Es gilt 
+\[ \Lambda_n = \frac{\max_{(\beta, \sigma^2) \in \Theta} L_y(\beta, \sigma^2)}{\max_{(\beta, \sigma^2) \in \Theta} L_y(\beta, \sigma^2)} 
+= \left(  \frac{\mathrm{RSS}_r}{\mathrm{RSS}}  \right)^{n/2}. \]
+\(H_0\) wird für große Werte von \(\Lambda_n\) abgelehnt.
+\end{karte}
+
+\begin{karte}{\(F\)-Test zum Vergleich von Teil- und Obermodell}
+Unter \(H_0: \beta_r = \ldots = \beta_{p-1} = 0\) ist die Teststatistik 
+\[ F = \frac{(\mathrm{RSS}_r - \mathrm{RSS}) / (p-r)}{ \mathrm{RSS} / (n-p) } \]
+\(F\)-verteilt mit \(p-r\) Zähler- und \(n-p\) Nenner-Freiheitsgeraden.
+
+Somit ergibt sich folgender Testentscheid zum Niveau \(\alpha\):
+\begin{align*}
+    H_0 \text{ verwerfen, falls } & F \geq F_{p-r, n-p; 1-\alpha}, \\
+    H_0 \text{ nicht verwerfen, falls } & F < F_{p-r, n-p; 1-\alpha}.
+\end{align*}
+\end{karte}
+
+\begin{karte}{Ein-Stichproben-\(t\)-Test zum Vergleich von Teil- und Obermodell}
+Gehört der \(j\)-te Regressor ins Modell?
+
+Es gilt mit \(b_{jj} := (X^T X)^{-1}_{j+1,j+1}\) 
+\[ \hat{\beta}_j \sim \mathcal{N}(\beta_j, \sigma^2 b_{jj}) \Rightarrow \frac{\hat{\beta}_j - \beta_j}{\sigma \sqrt{b_{jj}}} \sim \mathcal{N}(0,1). \]
+
+Weiter gilt \(\frac{\hat{\varepsilon}^T \hat{\varepsilon}}{\sigma^2} \sim \chi_{n-p}^2\).
+
+Daraus folgt mit \(\mathrm{se}(\hat{\beta}_j) = \hat{\sigma} \sqrt{b_{jj}}\)
+\[ \frac{\hat{\beta}_j - \beta_j}{ \mathrm{se}(\hat{\beta}_j)} \sim t_{n-p}. \]
+
+Somit kann man \(H_0: \beta_j = 0\) auch mit der Testgröße 
+\[ T := \frac{\hat{\beta}_j}{\mathrm{se}(\hat{\beta}_j)} \overset{H_0}{\sim} t_{n-p} \]
+testen (mit zweiseitigem Ablehnbereich).
+
+Es lässt sich zeigen, dass \(T^2 = F\) gilt.
+\end{karte}
+
+\begin{karte}{ANOVA-Tafel}
+Wenn wir alle Regressoren testen, gibt es die sog. ANOVA-Tafel.
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+    & Freiheitsgerade & Quadratsumme & & Teststatistik & \(p\)-Wert \\
+    \hline 
+    Regression & \(p-1\) & \(\mathrm{TSS} - \mathrm{RSS}\) & \(\frac{\mathrm{TSS} - \mathrm{RSS}}{p-1}\) & \(F\) & \(p^*\) \\
+    Residuen & \(n-p\) & \(\mathrm{RSS}\) & \(\frac{\mathrm{RSS}}{n-p}\) \\
+    \hline 
+    Gesamt & \(n-1\) & \(\mathrm{TSS}\)
+\end{tabular}
+\end{center}
+\end{karte}
+
+\subsection{Konfidenzbereiche für \(\beta\)}
+
+\begin{karte}{Quaderförmige Konfidenzbereiche (\gqq{Bonferroni-Methode})}
+Sei \(I_1\) ein \((1-\frac{\alpha}{2})\)-Konfidenzintervall für \(\beta_1\), 
+also \(P(I_1 \ni \beta_1) = 1 - \frac{\alpha}{2}\).
+Genauso \(I_2\). 
+Wegen \(P(A_1 \cap A_2) \geq 1 - P(A_1^C) + P(A_2^C)\) ist 
+\(I_1 \times I_2\) ein Konfidenzbereich für \((\beta_1, \beta_2)\) zur Wahrscheinlichkeit \(1-\alpha\).
+
+Für den allgemeinen Fall mit \(d \geq 2\) wähle Analog \(I_j\) so, dass \(P(I_j \ni \beta_j) \geq 1 - \frac{\alpha}{d}\). 
+So kommen wir auf einen quaderförmigen Konfidenzbereich \(I_1 \times \cdots \times I_d\) zur Wahrscheinlichkeit \(1-\alpha\).
+\end{karte}
+
+\begin{karte}{Elliptische Konfidenzbereiche}
+Es gilt 
+\[ \hat{\beta} \sim \mathcal{N}(\beta, \sigma^2 (X^T X)^{-1}) \]
+\[\Rightarrow (\hat{\beta} - \beta)^T \frac{X^T X}{\sigma^2} (\hat{\beta}- \beta) \sim \chi_p^2 \text{ und } (n-p)\frac{\hat{\sigma}^2}{\sigma^2} \sim \chi_{n-p}^2 \text{ unabhängig.} \]
+
+Somit folgt 
+\[ \frac{(\hat{\beta} - \beta)^T (X^T X) (\hat{\beta} - \beta)}{p \hat{\sigma}^2} \sim F_{p,n-p}. \]
+Der Bereich 
+\[ B(y) := \set{ \tilde{\beta} \in \R^p: (\hat{\beta} - \tilde{\beta})^T (X^T X) (\hat{\beta} - \tilde{\beta}) \leq p \cdot \hat{\sigma}^2 \cdot F_{p,n-p;1-\alpha} } \]
+erfüllt daher 
+\[ P_{(\beta, \sigma^2)}(B(Y) \ni \beta) = 1-\alpha. \]
+Da \(B(y)\) die Form eines Ellipsoids im \(\R^p\) hat, spricht man von einem \textit{elliptischen Konfidenzbereich} 
+für \(\beta\) zur Wahrscheinlichkeit \(1-\alpha\).
+\end{karte}
+
+\subsection{Konf.intervalle Vorhersage}
+
+\begin{karte}{Prädiktionswert}
+Eine Vorhersage (sog. Prädiktionswert) für einen gegebenen Wert \(x_i\) erhält man durch 
+\(\hat{y}_i = x_i^T \hat{\beta}\).
+
+Eine Vorhersage für einen neuen Regressorvektor \(x_0\) durch \(\hat{y}_0 := x_0^T \beta\).
+\end{karte}
+
+\begin{karte}{Konfidenzintervall für \(x_0^T \beta\)}
+Aus \(\hat{\beta} \sim \mathcal{N}(\beta, \sigma^2 (X^T X)^{-1})\) folgt für \(\hat{Y}_0 = x_0^T \hat{\beta}\)
+\[ \hat{Y}_0 \sim \mathcal{N}(x_0^T \beta, \sigma^2 x_0^T (X^T X)^{-1} x_0). \]
+Somit folgt mit \(\mathrm{se}(\hat{Y}_0) := \hat{\sigma} \sqrt{x_0^T (X^T X)^{-1} x_0}\)
+\[ \frac{\hat{Y}_0 - x_0^T \beta}{\mathrm{se}(\hat{Y}_0)} \sim t_{n-p}. \]
+Das Intervall 
+\[ I := \left[ \hat{Y}_0 - \mathrm{se}(\hat{Y}_0) \cdot t_{n-p;1-\frac{\alpha}{2}}, \hat{Y}_0 + \mathrm{se}(\hat{Y}_0 \cdot t_{n-p;1-\frac{\alpha}{2}}) \right] \]
+ist ein \((1-\alpha)\)-Konfidenzintervall für \(y_0 = x_0^T \beta\).
+\end{karte}
+
+\begin{karte}{Prädiktionsintervalle}
+Wichtiger als Konfidenzintervalle für \(x_0^T \beta\) sind entsprechende Intervalle für den 
+individuellen Vorhersagewert \(x_0^T \beta + \varepsilon_0\), \(\varepsilon_0 \sim \mathcal{N}(0, \sigma^2)\).
+
+Analog zu den Konfidenzintervallen folgt aus 
+\[ x_0^T \hat{\beta} - \varepsilon_0 \sim \mathcal{N}(x_0^T \beta, \sigma^2 x_0^T (X^T X)^{-1} x_0 + \sigma^2) \]
+\[ \frac{x_0^T \hat{\beta} - (x_0^T \beta + \varepsilon_0)}{se_p} \sim t_{n-p}, \]
+wobei \(se_p := \hat{\sigma} \sqrt{1+x_0^T (X^T X)^{-1} x_0}\) 
+der zugehörige Standardfehler ist. 
+Somit erhalten wir ein \((1-\alpha)\)-Prädiktionsintervall für \(x_0^T \beta + \varepsilon_0\) durch 
+\[ \left[ \hat{Y}_0 - se_p \cdot t_{n-p;1-\frac{\alpha}{2}}, \hat{Y}_0 + se_p \cdot t_{n-p;1-\frac{\alpha}{2}} \right]. \]
+\end{karte}
