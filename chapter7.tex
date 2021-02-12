@@ -1,0 +1,145 @@
+\section{Kategoriale Daten}
+
+\subsection{\(2\times 2\)-Kontingenztafeln}
+
+\begin{karte}{\(2\times 2\)-Kontingenztafeln}
+Es liegen Stichproben \(x_{1}, \ldots, x_{n_1}\) und \(y_1, \ldots, y_{n_2}\) vor. Die Modellannahme ist, dass 
+\(x_1, \ldots, x_{n_1}, \ldots, y_1, \ldots, y_{n_2}\) Realisierungen von unabhängigen ZVen sind mit 
+\begin{align*}
+    P(X_i = 1) &= p_1, P(X_i = 0) &= 1 - p_1, \\
+    P(Y_j = 1) &= p_2, P(Y_j = 0) &= 1 - p_2.
+\end{align*}
+Also \(X_i \sim Bin(1, p_1), Y_j \sim Bin(1, p_2)\).
+
+Die Daten lassen sich in einer \textit{\(2\times 2\)-Kontingenztafel} darstellen:
+
+\begin{tabular}{c|cc|c}
+    & Treffer & Niete & Summe \\
+    \hline
+    1. Stichprobe & \(a_1\) & \(n_1 - a_1\) & \(n_1\) \\
+    2. Stichprobe & \(a_2\) & \(n_2 - a_2\) & \(n_2\) \\
+    \hline
+    Summe & \(a_1 + a_2\) & \(n_1 + n_2 - a_1 - a_2\) & \(n_1 + n_2\)
+\end{tabular}
+
+Die Trefferwahrscheinlichkeit schätzt man durch \(\hat{p}_j = \frac{a_j}{n_j}\).
+\(\hat{p}\) bezeichnet die relative Gesamttrefferhäufigkeit.
+\end{karte}
+
+\begin{karte}{Konfidenzintervall für \(p_1 - p_2\)}
+Nach dem ZGWS ist \( \frac{\sqrt{n_j} (\hat{p_j} - p_j)}{\sqrt{p_j}(1-p_j)} \) asymptotisch standardnormalverteilt, 
+also gilt 
+\[ \hat{p}_j \approx \mathcal{N}\left( p_j, \frac{p_j(1-p_j)}{n_j} \right). \]
+Die Differenz \(\hat{p}_1 - \hat{p}_2\) ist wegen der Unabhängigkeit approximativ normalverteilt mit 
+\[ \hat{p}_1 - \hat{p}_2 \approx \mathcal{N}\left( p_1 - p_2, \frac{p_1(1-p_1)}{n_1} + \frac{p_2 (1-p_2)}{n_2} \right) =: \mathcal{N}(p_1-p_2, \sigma^2). \]
+Ein konsistenter Schätzer für \(\sigma^2\) ist \(\hat{\sigma}^2 := \frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2} \).
+Damit lässt sich ein approximatives Konfidenzintervall für \(p_1 - p_2\) zur Wahrscheinlichkeit \(1-\alpha\) konstruieren:
+\[ [ \hat{p}_1 - \hat{p}_2 - \hat{\sigma} \cdot z_{1-\alpha/2}, \hat{p}_1 - \hat{p}_2 + \hat{\sigma} \cdot z_{1-\alpha/2} ] \]
+mit \(z_{1-\alpha/2} = \Phi^{-1}(1-\alpha/2)\).
+\end{karte}
+
+\begin{karte}{Approximative Tests zum Vergleich von \(p_1\) und \(p_2\)}
+\(H_0: p_1 = p_2\) gegem \(H_1: p_1 \neq p_2\).
+Verwende Testgröße 
+\[ T_1 := \frac{\hat{p}_1 - \hat{p}_2}{\hat{\sigma}}. \]
+\(T_1\) ist unter \(H_0\) asymptotisch standardnormalverteilt. In der Praxis wird diese Testgröße jedoch nicht verwendet. 
+Stattdessen verwendet man, dass \(\hat{p}\) unter \(H_0\) ein konsistenter Schätzer für \(p = p_1 = p_2\) ist.
+Somit kann \(\sigma^2\) unter \(H_0\) durch 
+\[ \hat{\sigma}_0^2 := \frac{n_1 + n_2}{n_1 \cdot n_2} \hat{p}(1-\hat{p}) \]
+geschätzt werden. 
+Als Teststatistik wird dann 
+\[ T = \frac{\hat{p}_1 - \hat{p}_2}{\hat{\sigma}_0} = \sqrt{ \frac{n_1 \cdot n_2}{n_1 + n_2} } \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})}} \]
+verwendet. Bei Gültigkeit von \(H_0\) ist \(T\) approximativ standardnormalverteilt. 
+Somit lautet der Testentscheid 
+\begin{align*}
+    H_0 \text{ verwerfen, falls } &\abs{T} \geq z_{1-\alpha/2}, 
+    H_0 \text{ nicht verwerfen, falls } & \abs{T} < z_{1-\alpha/2}.
+\end{align*}
+Beim einseitigen Niveau \(\alpha\)-Test word \(H_0\) verworfen, falls \(T \geq z_{1-\alpha}\).
+\end{karte}
+
+\subsection{Fishers Test auf Homogenität}
+
+\begin{karte}{Fisher-Test}
+Der exakte Test von Fisher testet ebenfalls die Homogenitätsannahme \(H_0: p_1 = p_2 =: p\) gegen 
+\(H_1^{\neq}: p_1 \neq p_2\) (bzw. \(H_1^>: p_1 > p_2\) oder \(H_1^<: p_1 < p_2\)). Unter \(H_0\) gilt für 
+\[ R := \sum_{i=1}^{n_1} X_i, \quad S := \sum_{j=1}^{n_2} Y_j \]
+\(R,S\) unabhängig, \(R \sim Bin(n_1, p), S \sim Bin(n_1, p), R+S \sim Bin(n_1+n_2, p)\)
+und somit 
+\[ P(R=r, S=s \;|\; R+S=r+s) = \frac{ \binom{n_1}{r} \binom{n_2}{s} }{ \binom{n_1+n_2}{r+s} } =: f(r). \]
+Es gilt \(R \sim Hyp(n_1 + n_2, n_1, r+s)\).
+
+Berechnung des \(p\)-Wertes: 
+\(H_1^>\): \(p_1^* = \sum_{k=r}^{\min\set{r+s, n_1}} f(k)\).\\
+\(H_1^<\): \(p_2^* = \sum_{k=0}^{0} f(k)\).\\
+\(H_1^\neq\): \(p^* = \sum_{k\geq 0: f(k) \leq f(r)} f(k)\).
+Eine weitere Variante für \(p^*\) ist \(2\min\set{p_1^*, p_2^*}\).
+\end{karte}
+
+\subsection{\(\chi^2\)-Test auf Homogenität}
+
+\begin{karte}{Der \(\chi^2\) Verteilungskonvergenz}
+Unter der Hypothese \(H_0: p_1 = \cdots = p_k =: p\) (Homogenitätsannahme) ist 
+\[ D := \sum_{j=1}^k \frac{n_j (\hat{p}_j - \hat{p})^2}{\hat{p}(1-\hat{p})} \]
+asymptotisch \(\chi^2\)-verteilt mit \(k-1\) Freiheitsgeraden.
+\end{karte}
+
+\begin{karte}{Multinomialverteilung}
+Als Versuchsergebnis sei genau eines von \(m\) verschiedenen Ereignissen \(A_1, \ldots, A_m\) möglich, 
+die zugehörigen Wahrscheinlichkeiten seien \(p_1, \ldots, p_m\). 
+Wird der Versuch \(n\)-mal durchgeführt, so ist die Wahrscheinlichkeit dafür, dass \(n_1\)-mal \(A_1, \ldots,\) 
+\(n_m\)-mal \(A_m\) vorkommt (\(\sum n_i = n\)), gegeben durch 
+\[ P(N_1 = n_1, \ldots, N_m = n_m) = \binom{n}{n_1, \ldots, n_m} p_1^{n_1} \cdots p_m^{n_m}, \]
+wobei \(N_l\) die Häufigkeit des Auftretens von \(A_l \) zählt und 
+\[ \binom{n}{n_1, \ldots, n_m} = \frac{n!}{n_1! \cdots n_m!} \]
+der Multinomialskoeffizient ist. 
+
+\(V = (N_1, \ldots, N_m) \sim Mult(n, \pi)\) mit \(\pi = (p_1, \ldots, p_m)\).
+\end{karte}
+
+\begin{karte}{Maximum-Likelihood-Schätzer Multinomialverteilung}
+Der Maximum-Likelihood-Schätzer \(\hat{\pi}\) für \(\pi \in \Theta\), wobei 
+\[ \Theta := \left\{ (p_1, \ldots, p_m): p_l > 0, \sum p_l = 1 \right\} \]
+ist durch 
+\[ \hat{\pi} = \left( \frac{n_1}{n}, \ldots, \frac{n_m}{n} \right) \]
+gegeben. Dabei liegt \(\hat{\pi}\) auf dem Rand von \(\Theta\), falls \(n_l = 0\) für ein \(l\) ist.
+\end{karte}
+
+\begin{karte}{\(k\times m\)-Kontingenztafel}
+Es liegen \(k\) verschiedene Gruppen vor, die ZVen \(V_1, \ldots, V_k\) seien unabhängig multinomialverteilt 
+mit \(m\) gleichen möglichen Ausgängen: 
+\[ V_j = (N_{j1}, \ldots, N_{jm}) \sim Mult(n_{j+}, \pi_j) \]
+wobei \(\pi_j = (p_{j1}, \ldots, p_{jm})\) und \(n_{j+} = \sum_{l=1}^m n_{jl}\) die Anzahl der Versuche in Gruppe \(j\) ist.
+Die Wahrscheinlichkeiten lassen sich in einer Tafel anordnen: \\
+\begin{tabular}{c|cccc}
+    & \(1\) & \(2\) & \(\ldots\) & \(m\) \\
+    \hline
+    Gruppe \(1\) & \(p_{11}\) & \(p_{12}\) & \(\cdots\) & \(p_{1m}\) \\
+    Gruppe \(2\) & \(p_{21}\) & \(p_{22}\) & \(\cdots\) & \(p_{2m}\) \\
+    \(\vdots\) & \(\vdots\) & \(\vdots\) & & \(\vdots\) \\
+    Gruppe \(k\) & \(p_{k1}\) & \(p_{k2}\) & \(\cdots\) & \(p_{km}\)
+\end{tabular} \ \begin{tabular}{c|cccc|c}
+    & \(1\) & \(2\) & \(\ldots\) & \(m\) & Summe \\
+    \hline
+    Gruppe \(1\) & \(n_{11}\) & \(n_{12}\) & \(\cdots\) & \(n_{1m}\) & \(n_{1+}\)\\
+    Gruppe \(2\) & \(n_{21}\) & \(n_{22}\) & \(\cdots\) & \(n_{2m}\) & \(n_{2+}\) \\
+    \(\vdots\) & \(\vdots\) & \(\vdots\) & & \(\vdots\) & \(\vdots\) \\
+    Gruppe \(k\) & \(n_{k1}\) & \(n_{k2}\) & \(\cdots\) & \(n_{km}\) & \(n_{k+}\) \\
+    \hline
+    Summe & \(n_{+1}\) & \(n_{+2}\) & \(\cdots\) & \(n_{+m}\) & n
+\end{tabular}
+
+Zweiteres ist die \(k\times m\)-Kontingenztafel.
+\end{karte}
+
+\begin{karte}{Der Chi-Quadrat-Test auf Homogenität mit \(k\times m\)-Tafeln}
+    Testproblem: Hypothese der Homogenität
+    \[ H_0: \pi_1 = \ldots = \pi_k =: \pi, \pi = (p_1, \ldots, p_m). \]
+    Man schätzt \(p_{jl}\) durch \(\hat{p}_{jl} = \frac{n_{jl}}{n_{j+}}\) sowie unter \(H_0\) 
+    \(\hat{p}_l = \frac{n_{+l}}{n}\).
+
+    Teststatistik \(X^2\):
+    \[ X^2 = \sum_{j=1}^k \sum_{l=1}^m \frac{n_{j+} (\hat{p}_{jl} - \hat{p}_l)^2}{\hat{p}_l} = \sum_{j=1}^k \sum_{l=1}^m \frac{ (n_{jl} - \frac{n_{+l} n_{j+}}{n})^2 }{ \frac{ n_{+l} n_{j+} }{n} }. \]
+    Unter \(H_0\) und für \(p_l > 0\) gilt für \(n_{j+} \rightarrow \infty\): 
+    \[ X^2 \overset{D}{\rightarrow} \chi_{(k-1)(m-1)}^2. \]
+\end{karte}
