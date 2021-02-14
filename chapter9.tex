@@ -1,0 +1,52 @@
+\appendix
+\section{Konvergenzarten}
+
+\begin{karte}{Konvergenz von Zufallsvariablen}
+Seien \(X, X_1, X_2, \ldots\) Zufallsvariablen mit Verteilungsfunktionen 
+\(F_X, F_{X_1}, \ldots\).
+\begin{itemize}
+    \item Die Folge \(\set{X_n}\) konvergiert fast sicher gegen \(X\), falls 
+    \[ P\left( \set{ \omega \in \Omega : \limes{n} X_n(\omega) = X(\omega) }\right) = 1. \]
+    \item Die Folge \(\set{X_n}\) konvergiert stochastisch gegen \(X\), falls 
+    \[ P\left( \abs{X_n - X} \geq \varepsilon \right) = 0 \;\forall \varepsilon > 0. \]
+    \item Die Folge \(\set{X_n}\) konvergiert in Verteilung gegen \(X\), falls 
+    \[ \limes{n} F_{X_n}(x) = F_X(x) \forall x\in C(F_x), \]
+    wobei \(C(F_X)\) die Menge der Stetigkeitsstellen von \(F_X\) bezeichnet.
+\end{itemize}
+\end{karte}
+
+\begin{karte}{Konvergenzarten Zusammenhänge und Rechenregeln}
+Es gilt 
+\[ X_n \oversett{f.s.}{\longrightarrow} X \Rightarrow X_n \overset{P}{\longrightarrow} X \Rightarrow X_n \overset{\mathcal{D}}{\longrightarrow} X. \]
+
+Es sei \(c\in\R\). Dann gilt: 
+\[ X_n \overset{\mathcal{D}}{\longrightarrow} x \Leftrightarrow X_n \overset{P}{\longrightarrow} c. \]
+
+Es sei \(\abb{g}{\R}{\R}\) stetig. Dann gilt: 
+\begin{align*}
+    X_n \oversett{f.s.}{\longrightarrow} X \Rightarrow g(X_n) \oversett{f.s.}{\longrightarrow} g(X), \\
+    X_n \overset{P}{\longrightarrow} X \Rightarrow g(X_n) \overset{P}{\longrightarrow} g(X), \\
+    X_n \overset{\mathcal{D}}{\longrightarrow} X \Rightarrow g(X_n) \overset{\mathcal{D}}{\longrightarrow} g(X).
+\end{align*}
+\end{karte}
+
+\begin{karte}{Konvergenz von Zufallsvektoren}
+Seien \(Z, Z_1, \ldots\) \(k\)-dimensionale Zufallsvektoren. Die stochastische 
+und fast sichere Konvergenz wird in diesem Fall komponentenweise definiert. 
+Bei der Verteilungskonvergenz werden die Verteilungsfunktionen durch die entsprechenden 
+multivariaten Verteilungsfunktionen ersetzt, also nicht komponentenweise!
+
+Aus \(X_n \overset{\mathcal{D}}{\longrightarrow} X, Y_n \overset{\mathcal{D}}{\longrightarrow} Y\) folgt i. A. nicht 
+\(X_n + Y_n \overset{\mathcal{D}}{\longrightarrow} X + Y \). Hier ist die Forderung \((X_n, Y_n)^T \overset{\mathcal{D}}{\longrightarrow} (X,Y)^T\)
+nötig, um darauf schließen zu können.
+\end{karte}
+
+\begin{karte}{Lemma von Slutzky}
+Für reelle Zufallsvariablen \(X, X_1, \ldots\) und \(Y_1, \ldots\) gelte \(X_n \overset{\mathcal{D}}{\longrightarrow} X\) und \(Y_n \overset{P}{\longrightarrow} c, c\in \R\). 
+Dann gilt: 
+\begin{enumerate}
+    \item \(X_n + Y_n \overset{\mathcal{D}}{\longrightarrow} X+c\).
+    \item \(Y_n \cdot X_n \overset{\mathcal{D}}{\longrightarrow} c\cdot X\).
+    \item \(X_n / Y_n \overset{\mathcal{D}}{\longrightarrow} X/c\), falls \(c\neq 0\).
+\end{enumerate}
+\end{karte}

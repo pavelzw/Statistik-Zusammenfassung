@@ -1,0 +1,21 @@
+\section{\(p\)-Wert als ZV}
+
+\begin{karte}{Verteilung von \(p\) unter \(H_0\)}
+Wir nehmen an, dass \(T\) unter der Hypothese \(H_0\) eine Verteilung 
+mit stetiger, streng monotoner Verteilungsfunktion \(F\) besitzt. 
+
+Weiter nehmen wir an, dass der Test einen oberen/unterem/zweiseitigen Ablehnbereich besitzt. 
+In diesem Fall ist der \(p\)-Wert zu einer Beobachtung gegeben durch 
+\[ p^*(x) = P_{H_0}(T \geq T(x)). \]
+\(p^*(X)\) ist unter \(H_0\) gleichverteilt auf \((0,1)\).
+\end{karte}
+
+\begin{karte}{Verteilung von \(p\) unter \(H_1\)}
+\(T\) besitze unter \(H_1\) die Verteilungsfunktion \(G\).
+
+Für die Dichte \(h\) von \(p^*(X)\) bei oberem Ablehnungsbereich gilt: 
+\[ h(u) = \frac{g(F^{-1}(1-u))}{f(F^{-1}(1-u))}, u\in (0,1) \]
+
+Für die Dichte \(h\) von \(p^*(X)\) bei zweiseitigem Ablehnbereich gilt: 
+\[ h(u) = \frac{g(F^{-1}(u/2)) + g(-F^{-1}(u/2))}{2f(F^{-1}(u/2))}, u\in (0,1). \]
+\end{karte}

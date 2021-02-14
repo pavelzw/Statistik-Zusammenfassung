@@ -1,0 +1,94 @@
+\section{Multivariate Normalverteilung}
+
+\begin{karte}{Erwartungswertvektor, Kovarianzmatrix}
+Ist \(X = (X_1, \ldots, X_p)^T\) ein \(p\)-dimensionaler Zufallsvektor 
+mit \(E \abs{X_j} < \infty\) für alle \(j\), so heißt 
+\[ EX := (E X_1, \ldots, E X_p)^T \]
+\textit{Erwartungswert} oder \textit{Erwartungsvektor} von \(X\). 
+Gilt \(E X_j^2 < \infty\) für alle \(j\), so heißt die \((p\times p)\)-Matrix 
+\[ \Sigma(X) := (C(X_j, X_k))_{1\leq j, k\leq p} \]
+die \textit{Varianz-Kovarianzmatrix} oder \textit{Kovarianzmatrix} von \(X\).
+\end{karte}
+
+\begin{karte}{Eigenschaften Kovarianzmatrix, Erwartungsvektor}
+Erwartungswert bzw. Kovarianzmatrix besitzen folgende Eigenschaften: 
+\begin{enumerate}
+    \item Definiert man als Erwartungswert einer Matrix von Zufallsvariablen die Matrix der Erwartungswerte, so ist 
+    \[ \Sigma(X) = E((X-EX) (X - EX)^T) = E(X \cdot X^T) - EX \cdot (EX)^T. \]
+    \item Ist \(A\) eine \(s\times p\)-Matrix und \(b\in \R^s\), so gilt 
+    \[ E(AX+b) = A EX + b \text{ und } \Sigma(AX+b) = A \Sigma(X) A^T. \]
+    \item \(\Sigma(X)\) ist symmetrisch und positiv definit.
+\end{enumerate}
+\end{karte}
+
+\begin{karte}{Charakteristische Funktion}
+Sei \(X = (X_1, \ldots, X_p)^T\) ein \(p\)-dimensionaler Zufallsvektor. Dann heißt 
+\[ \varphi_X(t) := E(e^{it^T X}) = E\left( \exp\left( i \sum_{k=1}^p t_k X_k \right) \right) \]
+die \textit{charakteristische Funktion} von \(X\).
+
+Die charakteristische Funktion von \(X\) besitzt folgende Eigenschaften:
+\begin{enumerate}
+    \item \(\varphi_X(0) = 1, \abs{\varphi_X(t)} \leq 1 \;\forall t\in \R^p\).
+    \item Sei \(A\) eine \((s\times p)\)-Matrix, \(b\in \R^s\). Dann gilt für \(Z := AX + b \in \R^s\):
+    \[ \varphi_Z(u) = e^{i u^T b} \cdot \varphi_X(A^T u), u\in \R^s. \]
+    \item Eindeutigkeitssatz: Sind \(X\) und \(Y\) Zufallsvektoren im \(\R^p\) mit 
+    charakteristischen Funktionen \(\varphi_X\) und \(\varphi_Y\), so gilt: 
+    \[ P^X = P^Y \Leftrightarrow \varphi_X(t) = \varphi_Y(t) \;\forall t\in \R^p. \]
+    \item Sind \(X\) und \(Y\) unabhängige Zufallsvektoren im \(\R^p\) mit charakteristischen 
+    Funktionen \(\varphi_X\) und \(\varphi_Y\), so gilt: 
+    \[ \varphi_{X+Y}(t) = \varphi_X(t) \cdot \varphi_Y(t) \;\forall t\in \R^p. \]
+\end{enumerate}
+\end{karte}
+
+\begin{karte}{Satz von Radon-Herglotz-Cramér-Wold}
+Sind \(X\) und \(Y\) \(p\)-dimensionale Zufallsvektoren, so gilt: 
+\[ P^X = P^Y \Leftrightarrow P^{c^T X} = P^{c^T Y} \;\forall c\in \R^p. \]
+\end{karte}
+
+\begin{karte}{Multivariate Normalverteilung}
+Sei \(X_1, \ldots, X_p \oversett{uiv}{\sim} \mathcal{N}(0,1)\). Die gemeinsame Dichte 
+von \(X = (X_1, \ldots, X_p)^T\) ist 
+\[ f_X(x) = \prod_{j=1}^p f_{X_j}(x_j) = \frac{1}{(2\pi)^{p/2}} \exp\left( -\frac{1}{2} x^T x \right). \]
+
+Man sagt, \(X\) habe eine \(p\)-dimensionale Standardnormalverteilung, \(X \sim \mathcal{N}_p(0, I_p)\). 
+Es gilt \(\varphi_X(t) = \exp\left( -\frac{||t||^2}{2} \right)\). 
+
+Sei \(A\) eine \((p\times p)\)-Matrix und \(\mu\in \R^p\). Definiert man mit einem \(p\)-dimensionalen 
+standardnormalverteilten Zufallsvektor \(X\) 
+\[ Y := \mu + A X, \]
+so hat \(Y\) Erwartungswert \(\mu\) und Kovarianzmatrix \(C = A A^T\). Die charakteristische 
+Funktion von \(Y\) ist \(\varphi_Y(t) = e^{i t^T \mu} \exp\left( -\frac{1}{2} t^T C t \right)\).
+Dann sagen wir \(Y\sim \mathcal{N}_p(\mu, C)\).
+\end{karte}
+
+\begin{karte}{Normalverteilung Kriterium}
+Der \(p\)-dimensionale Zufallsvektor \(Y\) ist genau dann \(p\)-dimensional 
+normalverteilt, wenn \(a^T Y\) für jedes \(a\in \R^p\) (eindimensional) normalverteilt ist. 
+
+Dabei wird eine Einpunktverteilung als (ausgeartete) Normalverteilung mit Varianz \(0\) aufgefasst.
+
+\(Y = (Y_1, \ldots, Y_p)^T\) sei \(\mathcal{N}_p(\mu, C)\)-verteilt. 
+\begin{enumerate}
+    \item Ist \(B\) eine \((q\times p)\)-Matrix und \(b \in \R^q\), so gilt 
+    \[ BY + b \sim \mathcal{N}_q(B \mu + b, BCB^T). \]
+    \item \(Y_1, \ldots, Y_p\) sind genau dann stochastisch unabhängig, wenn \(C = (c_{ij})\) 
+    eine Diagonalmatrix ist, d. h. wenn \(c_{ij} = 0\) für alle \(i\neq j\) gilt.
+\end{enumerate}
+\end{karte}
+
+\begin{karte}{Komponenten der multivariaten Normalverteilung, Faltungsformel}
+Ist \(Y\) \(\mathcal{N}_p(\mu, C)\)-verteilt, so besitzt jede Auswahl \((Y_{i_1}, \ldots, Y_{i_k})\) 
+von \(Y\) eine multivariate Normalverteilung. \\
+Bezeichnet \(\sigma_i^2\) das \(i\)-te Diagonalelement von \(C\), so gilt insbesondere 
+\[ Y_i \sim \mathcal{N}(\mu_i, \sigma_i^2). \]
+
+Sind \(X\) und \(Y\) stochastisch unabhängig mit \(X \sim \mathcal{N}_p(\mu, C)\) 
+und \(Y \sim \mathcal{N}_p(\nu, T)\), so gilt: 
+\[ X + Y \sim \mathcal{N}_p(\mu + \nu, C + T). \]
+\end{karte}
+
+\begin{karte}{\(\chi_p^2\)-Verteilung durch multivariate Normalverteilung}
+Der Zufallsvektor \(Y\) sei \(\mathcal{N}_p(0, \Sigma)\)-verteilt mit positiv 
+definiter Kovarianzmatrix \(\Sigma\). Dann gilt: 
+\[ Y^T \Sigma^{-1} Y \sim \chi_p^2. \]
+\end{karte}
