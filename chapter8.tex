@@ -1,1 +1,259 @@
-% TODO
+\section{Nichtparametrische Verfahren}
+
+\subsection{Quantilschätzung}
+
+\begin{karte}{Quantilschätzung}
+Seien \(X_1, \ldots, X_n\) u.i.v. mit stetiger Verteilungsfunktion 
+\(F(x) = P(X_1\leq x)\). Für \(0<p<1\) wird das \(p\)-Quantil 
+\(\xi_p := F^{-1}(p) = \inf \set{ x\in \R: F(x) \geq p }\) 
+nichtparametrisch geschätzt durch 
+\[ \hat{\xi}_p := \begin{cases}
+    X_{(\lfloor np+1 \rfloor)}, & np\notin \N, \\
+    \frac{1}{2} (X_{(np)} + X_{(np+1)}), &np\in \N.
+\end{cases} \]
+\end{karte}
+
+\begin{karte}{Konfidenzintervall für das \(p\)-Quantil}
+Sei \(F_{(k)}(t) = P(X_{(k)} \leq t)\) die Verteilungsfunktion 
+der \(k\)-ten Ordnungsstatistik. Mit 
+\[ S_n := \sum_{j=1}^n 1 \set{X_j \leq t} \sim Bin(n, F(t)) \]
+gilt 
+\[ \set{X_{(k)} \leq t} = \set{S_n \geq k}, \]
+und somit 
+\[ F_{(k)}(t) = P(S_n \geq k) = \sum_{j=k}^n \binom{n}{j} F(j)^j (1-F(t))^{n-j}. \]
+Ereignisse der Form 
+\[ \set{X_{(r)} \leq \xi_p < X_{(s)}} \]
+werden betrachtet. 
+Da \(F(\xi_p) = p\) (\(F\) stetig) gilt 
+\[ P(X_{(r)} \leq \xi_p < X_{(s)}) = \sum_{j=r}^{s-1} \binom{n}{j} p^j (1-p)^{n-j}. \]
+\end{karte}
+
+\begin{karte}{Asymptotisches Konfidenzintervall für das \(p\)-Quantil}
+Es gilt da die Verteilungsfunktion stetig ist 
+\[ P(X_{(r)} \leq \xi_p \leq X_{(s)}) = P(X_{(r)} \leq \xi_p) - P(X_{(s)} \leq \xi_p), \]
+woraus mit \(S_n \sim Bin(n,p)\)
+\[ P(X_{(r)} \leq \xi_p < X_{(s)}) = P(r\leq S_n < s) \]
+folgt.
+
+Setzen wir 
+\begin{align*}
+    r &:= \lfloor np - z_{1-\alpha/2} \cdot \sqrt{np(1-p)} \rfloor, \\
+    s &:= \lfloor np + z_{1-\alpha/2} \cdot \sqrt{np(1-p)} \rfloor,
+\end{align*}
+so folgt aus dem ZGWS 
+\[ \limes{n} P(r \leq S_n < s) = 1-\alpha. \]
+Somit ist \( [X_{(r)}, X_{(s)}] \) ein asymptotisches Konfidenzintervall für 
+\(\xi_p\) zur Wahrscheinlichkeit \(1-\alpha\).
+\end{karte}
+
+\subsection{Vorzeichentest}
+
+\begin{karte}{Vorzeichentest}
+Der Vorzeichentest für den Median prüft 
+\[ H_0: \xi_{1/2} \leq m_0 \text{ gegen } H_1: \xi_{1/2} > m_0. \]
+Als Testgröße \(S_n\) wird die Anzahl der \(X_i\), die größer als \(m_0\) sind, 
+verwendet, also 
+\[ S_n = \sum_{i=1}^n 1 \set{X_i - m_0 > 0}. \]
+Es gilt 
+\(S_n \sim Bin(n, 1-F(m_0))\), wobei \(1-F(m_0) \leq 1/2\) unter \(H_0\) 
+und \(> 1/2\) unter \(H_1\).
+
+Hier wird derselbe Testentscheid wie beim einseitigen Binomialtest gemacht. 
+
+Der \(p\)-Wert bei Beobachtung \(s\) beim einseitigen Vorzeichentest ist 
+\[ p^* = P_{1/2}(S_n \geq s) = \sum_{j=s}^n \binom{n}{j} \frac{1}{2^n}. \]
+
+Werden Werte \((X_i, Y_i)\) beim \(i\)-ten Objekt beobachtet, so ist 
+\(Z_i := X_i - Y_i\) und \(\xi_{1/2}^Z\) der Median der \(Z_i\). Dieser Test ist 
+eine Alternative zum Zweistichproben-\(t\)-Test für verbundene Stichproben. Hier 
+benötigen wir nicht die Annahme, dass \(Z_i\) normalverteilt ist.
+\end{karte}
+
+\begin{karte}{Vorzeichen-Rangtest von Wilcoxon}
+Der VZtest verwendet nur die Information, ob \(X_j\) größer oder kleiner 
+als der Median ist, aber nicht, wie weit \(X_j\) vom Median entfernt ist. 
+Ein nichtparametrischer Test, der dies berücksichtigt, ist der Vorzeichen-Rangtest 
+von Wilcoxon, der in der Praxis meist bevorzugt wird.
+\end{karte}
+
+\subsection{Wilcoxon-Rangsummen}
+
+\begin{karte}{Wilcoxon-Rangsummen-Test 1}
+Der Wilcoxon-Rangsummen-Test vergleicht die zentrale Lage 
+von zwei unabhängigen Stichproben 
+\[ X_1, \ldots, X_m \oversett{uiv}{\sim} F, Y_1, \ldots, Y_n \oversett{uiv}{\sim} G,\ F,G\text{ stetig.} \]
+
+Meist geht man von Lage-Alternativen \(G(x) = F(x-\delta)\) aus. In diesem Fall 
+lautet das zweiseitige Testproblem 
+\[ H_0 : \delta = 0 \text{ gegen } H_1: \delta \neq 0. \]
+Manchmal auch unter Verwendung der stochastischen Ordnung: \(H_0: F(x) = G(x)\) gegen \(H_1: F(x) \geq G(x), \exists x: F(x) > G(x)\).
+
+Vorgehen: 
+\begin{itemize}
+    \item \(x_1, \ldots, x_m, y_1, \ldots, y_n =: (z_1, \ldots, z_{m+n})\).
+    \item Ränge der \(z_k\) bilden: 
+    \[ r(z_k) := \sum_{j=1}^{m+n} 1\set{z_j \leq z_k}. \]
+\end{itemize}
+\end{karte}
+
+\begin{karte}{Wilcoxon-Rangsummen-Test 2}
+\begin{itemize}
+    \item Testgröße: Summe der Ränge 
+    \[ W := \sum_{k=1}^m r(z_k). \]
+\end{itemize}
+Unter der Nullhypothese sind die Ränge gleichverteilt, jede Permutation von 
+\(\set{1, \ldots, m+n}\) hat also die gleiche Wahrscheinlichkeit. 
+
+Bei der einseitigen Alternative \(Y >^{st} X\) (bzw. \(\delta > 0\)) sprechen kleine 
+Werte von \(W\) für die Gültigkeit der Alternative. Folglich wird man \(H_0\) für 
+kleine Werte verwerfen. 
+
+Unter \(H_0\) gilt: 
+\begin{itemize}
+    \item \(E_{H_0}(W) = \frac{m(m+n+1)}{2}\).
+    \item \(V_{H_0}(W) = \frac{mn(m+n+1)}{12}\).
+    \item Die Verteilung von \(W\) ist symmetrisch um \(E_{H_0}(W)\), also 
+    \[ P_{H_0}(W=w) = P_{H_0}(W=2 E_{H_0}(W) - w). \]
+\end{itemize}
+\end{karte}
+
+\begin{karte}{Whitney-Test}
+Die Testgröße des Mann-Whitney-Tests ist 
+\[ U := \sum_{i=1}^m \sum_{j=1}^n 1\set{Y_j \leq X_i}. \]
+Wegen \(W = \frac{m(m+1)}{2} + U\)
+sind die Teststatistiken \(U\) und \(W\) äquivalent. 
+
+\(U/(mn)\) ist allerdings ein erwartungstreuer Schätzer für \(P(Y_1 \leq X_1)\).
+\end{karte}
+
+\begin{karte}{Der Kruksal-Wallis-Test}
+Der Kruskal-Wallis-Test ist eine Verallgemeinerung des Wilcoxon-Tests auf \(k>2\) 
+Stichproben. Es seien 
+\[ X_{11}, \ldots, X_{1 n_1}, \ldots, X_{k1}, \ldots, X_{k n_k} \text{ u.i.v.} \]
+mit \(X_{ij} \sim F_i\).
+Wir betrachten die Lage-Alternativen 
+\[ F_j(x) = F(x - \delta_j). \]
+Das Testproblem ist 
+\[ H_0: \delta_1 = \cdots = \delta_k \text{ gegen } H_1: \text{nicht alle }\delta_j \text{ gleich.} \]
+\end{karte}
+
+\begin{karte}{Der Kruksal-Wallis-Test Vorgehen}
+Vorgehen: Alle Werte werden zu einer Stichprobe zusammengefassen, dann werden Ränge vergeben. 
+Sei \(W_j\) die Rangsumme der \(j\)-ten Stichprobe, \(N := \sum_{j=1}^k n_j\). 
+Es gilt \(E_{H_0}(W_j) = \frac{n_j(N+1)}{2}\). 
+Wähle 
+\[ H := \frac{12}{N(N+1)} \sum_{j=1}^k \frac{1}{n_j} \left( W_j - \frac{n_j (N+1)}{2} \right)^2. \]
+Unter \(H_0: \delta_1 = \cdots = \delta_k\) gilt
+\[ H \overset{\mathcal{D}}{\longrightarrow} \chi_{k-1}^2, \]
+der Test verwirft die Nullhypothese, falls \(H\geq \chi_{k-1;1-\alpha}^2\) gilt.
+\end{karte}
+
+\subsection{Anpassungstests diskret}
+
+\begin{karte}{Der Chi-Quadrat-Anpassungstest}
+Sei \(X = (X_1, \ldots, X_s) \sim Mult(n; p_1, \ldots, p_s)\).
+
+Testproblem:
+\(H_0: p_j = \pi_j \)
+gegen \(H_1: p_j \neq \pi_j\) für ein \(j\).
+
+Testgröße: Sei \(n_j\) die beobachtete Anzahl eines Treffers \(j\)-ter Art. 
+Eine mögliche Testgröße ist die Likelihood-Quotienten-Teststatistik. 
+Mit \(\Theta := \set{ p: p_j > 0, \sum p_j = 1 }\)
+gilt \(\sup_{\vartheta \in \Theta} \log L(\vartheta) = \log\binom{n}{n_1, \ldots, n_s} + \sum_{j=1}^s n_j \log \frac{n_j}{n}\).
+
+Hieraus folgt 
+\[ 2 \log \Lambda_n = 2n \sum_{j=1}^s \hat{p}_j \log \frac{\hat{p}_j}{\pi_j}, \]
+\(\hat{p}_j := n_j / n\).
+
+Unter \(H_0 \) gilt: \(2 \log \Lambda_n \overset{\mathcal{D}}{\longrightarrow} \chi_{s-1}^2\).
+
+Eine Approximation für \(2 \log \Lambda_n\) von Pearson lautet \(X^2 := \sum_{j=1}^s \frac{(n_j - n \pi_j)^2}{n \pi_j}\).
+\end{karte}
+
+\begin{karte}{Dispersionsindex-Test auf Poisson-Verteilung}
+Es seien \(X_1, \ldots, X_n\) Beobachtungen. 
+\(H_0: X_i \sim Pois(\lambda), \lambda \text{ unbekannt}\) gegen 
+\(H_1: \) Die Daten stammen nicht aus einer Poisson-Verteilung.
+
+Unter \(H_0\) gilt \(EX_1 = V(X_1) = \lambda\), also \(V(X_1)/EX_1 = 1\).
+
+Die Prüfgröße ist der \textit{Dispersionsindex} 
+\[ D_n := \sum_{i=1}^n (X_i - \bar{X}_n)^2 / \bar{X}_n = \frac{(n-1) S_n^2}{\bar{X}_n}. \]
+Für den Dispersionsindex gilt unter \(H_0\) 
+\[ \frac{D_n - n}{\sqrt{2n}} \overset{\mathcal{D}}{\longrightarrow} \mathcal{N}(0,1). \]
+Also folgt \(D_n \approx \mathcal{N}(n, 2n)\).
+
+In der Praxis verwendet man unter \(H_0\) die bessere Approximation \(D_n \approx \chi_{n-1}^2\).
+
+\(H_0 \) verwerfen, falls \(D_n \leq \chi_{n-1;\alpha/2}^2 \vee D_n \geq \chi_{n-1;1-\alpha/2}^2\).
+
+\(H_0\) nicht verwerfen, falls \(\chi_{n-1;\alpha/2}^2 < D_n < \chi_{n-1;1-\alpha/2}^2\).
+\end{karte}
+
+\subsection{Anpassungstests empirisch}
+
+\begin{karte}{Empirische Verteilungsfunktion}
+Seien \(X_1, \ldots, X_n \overset{uiv}{\sim} F, F(t) = P(X_1 \leq t), F\) unbekannt. 
+Die durch 
+\[ \hat{F}_n(t) := \frac{1}{n}\sum_{i=1}^n 1\set{X_i \leq t} \]
+definierte Funktion heißt \textit{empirische Verteilungsfunktion}.
+Die Realisierungen sind monoton wachsende Treppenfunktionen, es gilt 
+\[ n \hat{F}_n(t) \sim Bin(n, F(t)), \]
+somit \(E \hat{F}_n(t) = F(t), V(\hat{F}_n(t)) = \frac{F(t) (1-F(t))}{n}\).
+Folglich ist \(\hat{F}_n(t)\) konsistent für \(F(t)\).
+
+Der ZGWS sagt: 
+\[ \sqrt{n} (\hat{F}_n(t) - F(t)) \overset{\mathcal{D}}{\longrightarrow} \mathcal{N}(0,F(t)(1-F(t))). \]
+\end{karte}
+
+\begin{karte}{Kolmogorov-Smirnov-Anpassungstest}
+Seien \(X_1, \ldots, X_n \overset{uiv}{\sim} F\), \(F_0\) eine Verteilungsfunktion.
+\(H_0: F = F_0\) gegen \(H_1: F \neq F_0\).
+
+Ein möglicher Ansatz ist den Abstand zwischen \(F\) und \(F_0\) herauszufinden. 
+\[ d(\hat{F}_n, F_0) = ||\hat{F}_n - F_0||_\infty =: K_n \]
+Verwerfe \(H_0\) für zu große Werte von \(K_n\).
+
+Sei \(X_{(1)} \leq \cdots \leq X_{(n)}\) die geordnete Stichprobe. Dann gilt: 
+\begin{enumerate}
+    \item \(K_n := \max_{1\leq j\leq n} \set{ \max\set{ \frac{j}{n} - F_0(X_{(j)}), F_0(X_{(j)}) - \frac{j-1}{n} } }\)
+    \item Die Verteilung von \(K_n\) hängt unter \(H_0\) nicht von \(F_0\) ab. Somit kann für die Bestimmung 
+    der Verteilung unter der Hypothese o. B. d. A. \(X_i \sim U(0,1)\) angenommen werden.
+    \item \(\sqrt{n} K_n\) besitzt unter \(H_0\) für \(n\rightarrow\infty\) eine Grenzverteilung, die sog. 
+    Kolmogorov-Verteilung mit Verteilungsfunktion 
+    \[ G(x) := 1 - 2\sum_{k=1}^\infty (-1)^{k-1} e^{-2k^2 x^2}, x>0. \]
+\end{enumerate}
+\end{karte}
+
+\begin{karte}{Anpassungstests bei zusammengesetzten Hypothesen}
+Gegeben ist eine parametrische Verteilungsfamilie 
+\[ \mathcal{F}_0 = \set{F(\cdot, \vartheta): \vartheta \in \Theta}. \]
+Das Testproblem lautet \(H_0: F\in \mathcal{F}_0\) gegen \(H_1: F\notin \mathcal{F}_0\).
+Verwende 
+\[ \tilde{K}_n := ||\hat{F}_n(\cdot) - F(\cdot, \hat{\vartheta}_n)||_\infty. \]
+
+Sei \(\Theta := \set{(\mu, \sigma^2) \in \R\times \R_+}, F(x,\vartheta) := F_0(\frac{x-\mu}{\sigma})\).
+Dann heißt 
+\[ \mathcal{F}_0 := \set{F_0(\frac{\cdot - \mu}{\sigma})} \]
+die von \(F_0\) erzeugte \textit{Lokations-Skalen-Familie}. 
+Dabei gilt: \(X\sim F_0 \Leftrightarrow \sigma \cdot X + \mu \sim F(\cdot, \vartheta)\).
+
+Eine Testgröße hängt nicht von \(\vartheta = (\mu, \sigma^2)\) ab, also kann man 
+o. B. d. A. \(\mu=0\) und \(\sigma^2 = 1\) unter \(H_0\) setzen.
+\end{karte}
+
+\begin{karte}{Quantil-Quantil-Plots}
+Die empirischen Quantile zu den Werten \(p_j = \frac{j - 1/2}{n}\)
+sind 
+\[ \xi_{p_j} = x_{(\lfloor np_j + 1\rfloor)} = x_{(j)}. \]
+
+Idee beim QQ-Plot: 
+Trage \(\xi_{p_j}\) gegen \(x_{(j)}\) auf. Die Punkte sollten ungefähr auf der Winkelhalbierenden liegen.
+
+Zusammengesetzte Hypothese: \(X_1, \ldots, X_n \oversett{uiv}{\sim} \mathcal{N}(\mu, \sigma^2)\). 
+Dann ist \[ \frac{X_1-\mu}{\sigma}, \ldots, \frac{X_n-\mu}{\sigma} \oversett{uiv}{\sim} \mathcal{N}(0,1). \]
+
+Da \(t\mapsto \mu + \sigma \cdot t\) eine Geradengleichung ist, sollten die Punkte 
+\((\xi_{p_j}(\Phi), x_{(j)})\) ungefähr eine Gerade bilden. 
+\end{karte}
